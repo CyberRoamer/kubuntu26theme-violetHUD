@@ -38,7 +38,7 @@
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/violetHUD-repo.git
+git clone https://github.com/CyberRoamer/kubuntu26theme-violetHUD.git
 cd violetHUD-repo
 ```
 
