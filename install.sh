@@ -187,7 +187,8 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
 
     # Konsole Profile & Colors
     install_file "$ASSETS_DIR/konsole/VioletHUD.profile" "/usr/share/konsole/VioletHUD.profile"
-    install_file "$ASSETS_DIR/konsole/Tronnix.colorscheme" "/usr/share/konsole/Tronnix.colorscheme"
+    install_file "$ASSETS_DIR/konsole/VioletHUD.colorscheme" "/usr/share/konsole/VioletHUD.colorscheme"
+    rm -f /usr/share/konsole/Tronnix.colorscheme 2>/dev/null || true
 
     # Plasma Look-and-Feel (Splash)
     install_tree "$ASSETS_DIR/plasma/look-and-feel/VioletHUD" "/usr/share/plasma/look-and-feel/VioletHUD"
@@ -236,7 +237,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
         /usr/share/color-schemes/PurpleHUD.colors \
         /usr/share/Kvantum/VioletHUD \
         /usr/share/konsole/VioletHUD.profile \
-        /usr/share/konsole/Tronnix.colorscheme \
+        /usr/share/konsole/VioletHUD.colorscheme \
         /usr/share/plasma/look-and-feel/VioletHUD \
         /usr/share/kwin/scripts/toggle-window-opacity \
         /usr/share/plymouth/themes/VioletHUD \
@@ -250,7 +251,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
         /usr/share/color-schemes/PurpleHUD.colors \
         /usr/share/Kvantum/VioletHUD \
         /usr/share/konsole/VioletHUD.profile \
-        /usr/share/konsole/Tronnix.colorscheme \
+        /usr/share/konsole/VioletHUD.colorscheme \
         /usr/share/plasma/look-and-feel/VioletHUD \
         /usr/share/kwin/scripts/toggle-window-opacity \
         /usr/share/plymouth/themes/VioletHUD \
@@ -353,9 +354,10 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     if [ -f "$ASSETS_DIR/konsole/VioletHUD.profile" ]; then
         run_as_user cp -a "$ASSETS_DIR/konsole/VioletHUD.profile" "$USER_HOME/.local/share/konsole/"
     fi
-    if [ -f "$ASSETS_DIR/konsole/Tronnix.colorscheme" ]; then
-        run_as_user cp -a "$ASSETS_DIR/konsole/Tronnix.colorscheme" "$USER_HOME/.local/share/konsole/"
+    if [ -f "$ASSETS_DIR/konsole/VioletHUD.colorscheme" ]; then
+        run_as_user cp -a "$ASSETS_DIR/konsole/VioletHUD.colorscheme" "$USER_HOME/.local/share/konsole/"
     fi
+    run_as_user rm -f "$USER_HOME/.local/share/konsole/Tronnix.colorscheme"
     run_as_user kwriteconfig6 --file "$USER_CONFIG/konsolerc" --group "Desktop Entry" --key DefaultProfile VioletHUD.profile
     run_as_user kwriteconfig6 --file "$USER_CONFIG/konsolerc" --group UiSettings --key ColorScheme PurpleHUD
     echo -e "  ${GREEN}[KONSOLE]${RESET} Configured VioletHUD.profile as default in konsolerc"

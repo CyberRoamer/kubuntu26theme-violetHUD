@@ -24,7 +24,7 @@
 | **Cursor Theme** | `invader-64-purple` (Alienware Purple) | `/usr/share/icons/` | Full animated Alienware purple cursor suite at 48px/64px |
 | **Icon Theme** | `SoursCompiled` | `/usr/share/icons/` | Custom glowing icon theme |
 | **Widget Style** | `VioletHUD` (Kvantum) | `/usr/share/Kvantum/` | Translucent SVG widget styling |
-| **Konsole** | `VioletHUD.profile` + `Tronnix.colorscheme` | `/usr/share/konsole/` | Cyberpunk terminal profile (selected as default) |
+| **Konsole** | `VioletHUD.profile` + `VioletHUD.colorscheme` | `/usr/share/konsole/` | Cyberpunk terminal profile (selected as default) |
 | **Profile Avatar** | `assets/avatar/user-avatar.png` | `~/.face` & AccountsService | High-res Alienware violet badge profile picture |
 | **Splash Screen** | `VioletHUD` Look-and-Feel | `/usr/share/plasma/look-and-feel/` | Clean animated startup splash |
 | **Desktop Panels** | 5 Floating HUD Panels | `~/.config/` | Weather, Monitors, Dock, Clock, Tray |

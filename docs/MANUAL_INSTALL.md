@@ -25,7 +25,7 @@ sudo cp -r assets/kvantum/VioletHUD /usr/share/Kvantum/
 
 # Konsole profile & colors
 sudo cp assets/konsole/VioletHUD.profile /usr/share/konsole/
-sudo cp assets/konsole/Tronnix.colorscheme /usr/share/konsole/
+sudo cp assets/konsole/VioletHUD.colorscheme /usr/share/konsole/
 
 # Splash screen
 sudo cp -r assets/plasma/look-and-feel/VioletHUD /usr/share/plasma/look-and-feel/

@@ -1,5 +1,5 @@
 [Appearance]
-ColorScheme=Tronnix
+ColorScheme=VioletHUD
 LineSpacing=2
 
 [Cursor Options]

@@ -44,6 +44,7 @@ remove_tree /usr/share/color-schemes/PurpleHUD.colors
 remove_tree /usr/share/color-schemes/LavenderHUD.colors
 remove_tree /usr/share/Kvantum/VioletHUD
 remove_tree /usr/share/konsole/VioletHUD.profile
+remove_tree /usr/share/konsole/VioletHUD.colorscheme
 remove_tree /usr/share/konsole/Tronnix.colorscheme
 remove_tree /usr/share/plasma/look-and-feel/VioletHUD
 remove_tree /usr/share/kwin/scripts/toggle-window-opacity
@@ -146,6 +147,7 @@ if [ -n "${SUDO_USER:-}" ] && [ -d "$BACKUP_DIR/user-config" ]; then
     remove_tree "$USER_HOME/.local/share/icons/SoursCompiled"
     remove_tree "$USER_HOME/.local/share/icons/invader-64-purple"
     remove_tree "$USER_HOME/.local/share/konsole/VioletHUD.profile"
+    remove_tree "$USER_HOME/.local/share/konsole/VioletHUD.colorscheme"
     remove_tree "$USER_HOME/.local/share/konsole/Tronnix.colorscheme"
     remove_tree "$USER_HOME/.local/share/plasma/look-and-feel/VioletHUD"
     remove_tree "$USER_HOME/.local/share/wallpapers/VioletHUD"

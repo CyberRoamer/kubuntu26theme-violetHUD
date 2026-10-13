@@ -48,7 +48,7 @@ This document outlines the technical details and installation targets for each m
 ## 6. Konsole Profile & Colors
 * **Paths:**
   * `assets/konsole/VioletHUD.profile`
-  * `assets/konsole/Tronnix.colorscheme`
+  * `assets/konsole/VioletHUD.colorscheme`
 * **Targets:**
   * System: `/usr/share/konsole/`
   * User: `~/.local/share/konsole/`
