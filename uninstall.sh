@@ -78,10 +78,22 @@ if [ -d "$BACKUP_DIR" ]; then
     done
 fi
 
-if command -v update-initramfs >/dev/null 2>&1 && \
-   command -v plymouth-set-default-theme >/dev/null 2>&1; then
-    plymouth-set-default-theme -R breeze 2>/dev/null || true
-    echo -e "  ${GREEN}[PLYMOUTH]${RESET} Reset boot theme to breeze"
+if command -v update-alternatives >/dev/null 2>&1; then
+    update-alternatives --remove x-cursor-theme /usr/share/icons/invader-64-purple/index.theme 2>/dev/null || true
+    update-alternatives --auto x-cursor-theme 2>/dev/null || true
+    update-alternatives --remove default.plymouth /usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth 2>/dev/null || true
+    if [ -f /usr/share/plymouth/themes/breeze/breeze.plymouth ]; then
+        update-alternatives --set default.plymouth /usr/share/plymouth/themes/breeze/breeze.plymouth 2>/dev/null || true
+    else
+        update-alternatives --auto default.plymouth 2>/dev/null || true
+    fi
+    echo -e "  ${GREEN}[ALTERNATIVES]${RESET} Reset cursor and boot theme default alternatives"
+fi
+
+if command -v update-initramfs >/dev/null 2>&1; then
+    echo -e "  ${BLUE}[INITRAMFS]${RESET} Updating initramfs..."
+    update-initramfs -u 2>/dev/null || true
+    echo -e "  ${GREEN}[INITRAMFS]${RESET} Initramfs restored"
 fi
 
 # ------------------------------------------------------------------------------
@@ -113,9 +125,17 @@ if [ -n "${SUDO_USER:-}" ] && [ -d "$BACKUP_DIR/user-config" ]; then
     restore_user_cfg "plasma-org.kde.plasma.desktop-appletsrc"
     restore_user_cfg "plasmashellrc"
 
+    remove_tree "$USER_HOME/.local/share/icons/invader-64-purple"
+    remove_tree "$USER_HOME/.icons/invader-64-purple"
+    remove_tree "$USER_HOME/.icons/default"
+
     USER_UID="$(id -u "$SUDO_USER")"
     USER_RUNDIR="/run/user/$USER_UID"
     if [ -d "$USER_RUNDIR" ]; then
+        sudo -u "$SUDO_USER" \
+            env XDG_RUNTIME_DIR="$USER_RUNDIR" \
+                DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
+                qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
         sudo -u "$SUDO_USER" \
             env XDG_RUNTIME_DIR="$USER_RUNDIR" \
                 DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \

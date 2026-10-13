@@ -48,7 +48,9 @@ Update caches and Plymouth:
 ```bash
 sudo gtk-update-icon-cache -f /usr/share/icons/SoursCompiled
 sudo gtk-update-icon-cache -f /usr/share/icons/invader-64-purple
-sudo plymouth-set-default-theme -R VioletHUD
+sudo update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth /usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth 100 --slave /usr/share/plymouth/themes/default.grub default.plymouth.grub /usr/share/plymouth/themes/VioletHUD/VioletHUD.grub
+sudo update-alternatives --set default.plymouth /usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth
+sudo update-initramfs -u
 ```
 
 ---

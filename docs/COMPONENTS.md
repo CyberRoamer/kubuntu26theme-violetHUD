@@ -22,10 +22,8 @@ This document outlines the technical details and installation targets for each m
 
 ---
 
-## 3. Cursor Themes
-* **Paths:**
-  * `assets/cursors/invader-64-purple` (Primary)
-  * `assets/cursors/Tronnix` (Alternative)
+## 3. Cursor Theme
+* **Path:** `assets/cursors/invader-64-purple` (Alienware Purple)
 * **Target:** `/usr/share/icons/`
 * **Config Key:** `kcminputrc` -> `[Mouse]` -> `cursorTheme=invader-64-purple`, `cursorSize=48`
 * **Description:** Sharp, futuristic high-DPI purple cursor sets supporting animated states, Wayland, and X11 cursor specifications.

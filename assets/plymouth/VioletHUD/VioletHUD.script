@@ -166,6 +166,7 @@ Window.SetBackgroundBottomColor (0.00, 0.67, 1.00);  # an equally nice colour on
 bits_per_pixel = Window.GetBitsPerPixel ();
 if (bits_per_pixel == 4) {
     logo_filename = "logo.png";
+    blurred_logo_filename = "logo_blurred.png";
     progress_dot_off_filename = "progress_dot_off16.png";
     progress_dot_on_filename = "progress_dot_on16.png";
     password_field_filename = "password_field16.png";
@@ -1014,6 +1015,11 @@ Plymouth.SetDisplayNormalFunction (display_normal_callback);
 
 # TODO: Maybe we should also hide any other dialog
 # Show the logo and make the progress indicator look full when on exit
+fun switch_on_bullets ()
+{
+    # No-op bullet state safeguard
+}
+
 fun quit_callback ()
 {
     logo.sprite.SetOpacity (1);

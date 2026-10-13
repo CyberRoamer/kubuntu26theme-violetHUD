@@ -168,11 +168,10 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     # Icons
     install_tree "$ASSETS_DIR/icons/SoursCompiled" "/usr/share/icons/SoursCompiled"
 
-    # Cursors
+    # Cursors (Alienware Invader Purple)
+    rm -rf /usr/share/icons/Tronnix /usr/share/icons/invader-64-purple
     install_tree "$ASSETS_DIR/cursors/invader-64-purple" "/usr/share/icons/invader-64-purple"
-    if [ -d "$ASSETS_DIR/cursors/Tronnix" ]; then
-        install_tree "$ASSETS_DIR/cursors/Tronnix" "/usr/share/icons/Tronnix"
-    fi
+
 
     # Aurorae Window Decoration
     install_tree "$ASSETS_DIR/aurorae/VioletHUD" "/usr/share/aurorae/themes/VioletHUD"
@@ -261,10 +260,40 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
         gtk-update-icon-cache -f /usr/share/icons/invader-64-purple 2>/dev/null || true
     fi
 
-    if command -v update-initramfs >/dev/null 2>&1 && \
-       command -v plymouth-set-default-theme >/dev/null 2>&1; then
-        plymouth-set-default-theme -R VioletHUD 2>/dev/null || true
-        echo -e "  ${GREEN}[PLYMOUTH]${RESET} Registered VioletHUD as default boot theme"
+    # System x-cursor-theme registration
+    if [ -f "/usr/share/icons/invader-64-purple/index.theme" ]; then
+        if command -v update-alternatives >/dev/null 2>&1; then
+            update-alternatives --install /usr/share/icons/default/index.theme x-cursor-theme \
+                /usr/share/icons/invader-64-purple/index.theme 100 2>/dev/null || true
+            update-alternatives --set x-cursor-theme \
+                /usr/share/icons/invader-64-purple/index.theme 2>/dev/null || true
+            echo -e "  ${GREEN}[CURSORS]${RESET} Registered invader-64-purple as default x-cursor-theme"
+        fi
+    fi
+
+    # Plymouth boot theme registration and initramfs update
+    if [ -f "/usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth" ]; then
+        if command -v update-alternatives >/dev/null 2>&1; then
+            update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth \
+                /usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth 100 \
+                --slave /usr/share/plymouth/themes/default.grub default.plymouth.grub \
+                /usr/share/plymouth/themes/VioletHUD/VioletHUD.grub 2>/dev/null || \
+            update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth \
+                /usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth 100 2>/dev/null || true
+
+            update-alternatives --set default.plymouth /usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth 2>/dev/null || true
+            echo -e "  ${GREEN}[PLYMOUTH]${RESET} Registered VioletHUD via update-alternatives"
+        fi
+
+        if [ -f /etc/plymouth/plymouthd.conf ]; then
+            sed -i 's/^Theme=.*/Theme=VioletHUD/' /etc/plymouth/plymouthd.conf 2>/dev/null || true
+        fi
+
+        if command -v update-initramfs >/dev/null 2>&1; then
+            echo -e "  ${BLUE}[INITRAMFS]${RESET} Updating initramfs with VioletHUD boot theme..."
+            update-initramfs -u 2>/dev/null || true
+            echo -e "  ${GREEN}[INITRAMFS]${RESET} Initramfs updated successfully"
+        fi
     fi
 fi
 
@@ -290,6 +319,29 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     # Cursor Theme & Size
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorTheme invader-64-purple
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorSize 48
+
+    # Install user cursor directories for Wayland/Qt/GTK
+    run_as_user rm -rf "$USER_HOME/.local/share/icons/Tronnix" "$USER_HOME/.icons/Tronnix"
+    run_as_user rm -rf "$USER_HOME/.local/share/icons/invader-64-purple" "$USER_HOME/.icons/invader-64-purple"
+    run_as_user mkdir -p "$USER_HOME/.local/share/icons" "$USER_HOME/.icons/default"
+    run_as_user cp -a "$ASSETS_DIR/cursors/invader-64-purple" "$USER_HOME/.local/share/icons/invader-64-purple"
+    run_as_user cp -a "$ASSETS_DIR/cursors/invader-64-purple" "$USER_HOME/.icons/invader-64-purple"
+
+    # Default user cursor inheritance
+    run_as_user tee "$USER_HOME/.icons/default/index.theme" >/dev/null <<'EOF'
+[Icon Theme]
+Inherits=invader-64-purple
+EOF
+
+    # GTK Cursor Settings
+    for gtk_dir in "$USER_CONFIG/gtk-3.0" "$USER_CONFIG/gtk-4.0"; do
+        if [ -d "$gtk_dir" ]; then
+            if [ -f "$gtk_dir/settings.ini" ]; then
+                run_as_user sed -i 's/^gtk-cursor-theme-name=.*/gtk-cursor-theme-name=invader-64-purple/' "$gtk_dir/settings.ini" 2>/dev/null || true
+                run_as_user sed -i 's/^gtk-cursor-theme-size=.*/gtk-cursor-theme-size=48/' "$gtk_dir/settings.ini" 2>/dev/null || true
+            fi
+        fi
+    done
 
     # Splash Screen
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Theme VioletHUD
@@ -418,6 +470,18 @@ chown "$USER_NAME:$USER_NAME" \
     "$USER_CONFIG/ksplashrc" \
     "$USER_CONFIG/kcminputrc" \
     2>/dev/null || true
+
+# Reconfigure KWin and notify desktop of cursor and theme changes
+if [ -d "$USER_RUNDIR" ]; then
+    sudo -u "$USER_NAME" \
+        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
+            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
+            qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
+    sudo -u "$USER_NAME" \
+        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
+            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
+            dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0 2>/dev/null || true
+fi
 
 echo
 echo -e "${PURPLE}${BOLD}============================================================${RESET}"
