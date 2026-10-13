@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g class="ColorScheme-Text-shadow" fill="#4000ff" style="color:#4000ff !important">
+      <path d="M5 3v5h15v8h-2v-5h-1v5H9v1h8v1h1v-1h3V3zm1 1h14v3H6V5zm1 1v1h2V5zm10 0v1h2V5z" style="color:#4000ff !important" />
+      <path d="M4.5 9A3.5 3.5 0 0 0 1 12.5v3a3.5 3.5 0 1 0 7 0v-3A3.5 3.5 0 0 0 4.5 9zm0 1A2.5 2.5 0 0 1 7 12.5v3a2.5 2.5 0 1 1-5 0v-3A2.5 2.5 0 0 1 4.5 10z" style="color:#4000ff !important" />
+      <path d="M4 11h1v2H4z" style="color:#4000ff !important" />
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g class="ColorScheme-Text" fill="currentColor">
+      <path d="M5 3v5h15v8h-2v-5h-1v5H9v1h8v1h1v-1h3V3zm1 1h14v3H6V5zm1 1v1h2V5zm10 0v1h2V5z" />
+      <path d="M4.5 9A3.5 3.5 0 0 0 1 12.5v3a3.5 3.5 0 1 0 7 0v-3A3.5 3.5 0 0 0 4.5 9zm0 1A2.5 2.5 0 0 1 7 12.5v3a2.5 2.5 0 1 1-5 0v-3A2.5 2.5 0 0 1 4.5 10z" />
+      <path d="M4 11h1v2H4z" />
+    </g>
+  </g>
+</svg>

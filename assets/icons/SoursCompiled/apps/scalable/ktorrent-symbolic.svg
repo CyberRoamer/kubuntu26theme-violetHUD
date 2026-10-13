@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-Accent { color: #3daee9; } .ColorScheme-Background { color: #2a2e32; } .ColorScheme-ButtonText { color: #31363b; } .ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Accent-shadow { color:#4000ff; } .ColorScheme-Background-shadow { color:#4000ff; } .ColorScheme-ButtonText-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g id="ktorrent-shadow" style="color:#4000ff !important">
+      <path id="rect4163-shadow" d="M 8 3 L 8 9 L 9 9 L 9 4 L 13 4 L 13 9 L 14 9 L 14 3 L 13 3 L 9 3 L 8 3 z M 5.7929688 10 L 5 10.816406 L 11 17 L 17 10.816406 L 16.207031 10 L 11 15.367188 L 5.7929688 10 z M 4 17 L 4 19 L 5 19 L 17 19 L 18 19 L 18 17 L 17 17 L 17 18 L 5 18 L 5 17 L 4 17 z " style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" class="ColorScheme-Text-shadow" />
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g id="ktorrent">
+      <path id="rect4163" d="M 8 3 L 8 9 L 9 9 L 9 4 L 13 4 L 13 9 L 14 9 L 14 3 L 13 3 L 9 3 L 8 3 z M 5.7929688 10 L 5 10.816406 L 11 17 L 17 10.816406 L 16.207031 10 L 11 15.367188 L 5.7929688 10 z M 4 17 L 4 19 L 5 19 L 17 19 L 18 19 L 18 17 L 17 17 L 17 18 L 5 18 L 5 17 L 4 17 z " style="fill:currentColor;fill-opacity:1;stroke:none" class="ColorScheme-Text" />
+    </g>
+  </g>
+</svg>

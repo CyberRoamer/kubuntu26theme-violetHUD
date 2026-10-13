@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-NegativeText { color: #da4453; } .ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-NegativeText-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g id="notification-progress-inactive-shadow" transform="translate(39 39) translate(-40,-40)" style="color:#4000ff !important">
+      <path id="path10-shadow" d="m1 1h22v22h-22z" fill="none" style="color:#4000ff !important" />
+      <circle id="circle-transparent-shadow" cx="12" cy="12" r="8" class="ColorScheme-Text-shadow" fill="#4000ff" opacity=".4" style="color:#4000ff !important" />
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g id="notification-progress-inactive" transform="translate(39 39) translate(-40,-40)">
+      <path id="path10" d="m1 1h22v22h-22z" fill="none" />
+      <circle id="circle-transparent" cx="12" cy="12" r="8" class="ColorScheme-Text" fill="currentColor" opacity=".4" />
+    </g>
+  </g>
+</svg>

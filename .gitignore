@@ -1,0 +1,16 @@
+# Backup and temp files
+*.bak
+*.backup
+*~
+*.swp
+*.tmp
+*.log
+
+# Release archives
+*.tar.gz
+*.zip
+*.tar.xz
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "KPackageStructure": "Plasma/LookAndFeel",
+  "KPlugin": {
+    "Authors": [
+      {
+        "Email": "",
+        "Name": "VioletHUD"
+      }
+    ],
+    "Category": "",
+    "Description": "VioletHUD Splash Screen for Plasma 6",
+    "Id": "VioletHUD",
+    "License": "GPLv2+",
+    "Name": "VioletHUD",
+    "Website": ""
+  },
+  "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Logout;Lock;Suspend;Shutdown;Hibernate;Violet;VioletHUD;HUD;",
+  "X-Plasma-APIVersion": "2"
+}

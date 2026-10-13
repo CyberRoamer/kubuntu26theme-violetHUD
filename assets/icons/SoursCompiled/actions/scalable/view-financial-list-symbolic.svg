@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24">
+  <defs id="defs3051">
+    <style type="text/css" id="current-color-scheme">.ColorScheme-NegativeText { color: #da4453; } .ColorScheme-PositiveText { color: #27ae60; } .ColorScheme-Text { color: #fcfcfc; } </style>
+  <style>.ColorScheme-NegativeText-shadow { color:#4000ff; } .ColorScheme-PositiveText-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs>
+  <g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" d="m4 3v2h-1v3h1v6h-1v3h1v2h14v-16zm2 1h11v14h-11zm1 1v1h5v-1zm0 2v1h6v-1zm0 2v1h5v-1zm0 2v1h6v-1zm0 2v1h5v-1zm0 2v1h6v-1z" class="ColorScheme-Text-shadow" />
+    <path style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" d="m14 9v1h2v-1z" class="ColorScheme-NegativeText-shadow" />
+    <path style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" d="m14 5v1h2v-1zm0 8v1h2v-1z" class="ColorScheme-PositiveText-shadow" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path style="fill:currentColor;fill-opacity:1;stroke:none" d="m4 3v2h-1v3h1v6h-1v3h1v2h14v-16zm2 1h11v14h-11zm1 1v1h5v-1zm0 2v1h6v-1zm0 2v1h5v-1zm0 2v1h6v-1zm0 2v1h5v-1zm0 2v1h6v-1z" class="ColorScheme-Text" />
+    <path style="fill:currentColor;fill-opacity:1;stroke:none" d="m14 9v1h2v-1z" class="ColorScheme-NegativeText" />
+    <path style="fill:currentColor;fill-opacity:1;stroke:none" d="m14 5v1h2v-1zm0 8v1h2v-1z" class="ColorScheme-PositiveText" />
+  </g>
+</svg>

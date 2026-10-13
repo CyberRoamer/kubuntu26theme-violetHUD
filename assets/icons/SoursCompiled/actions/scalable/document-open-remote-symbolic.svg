@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <defs id="defs3051">
+    <style type="text/css" id="current-color-scheme">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs>
+  <g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" d="m3 3v1 11h1v-5h3v-.007813l.007813.007813 2-2h8.992188v7h1v-10h-6.992188l-2-2-.007812.007813v-.007813h-6-1m6 13v1h-6v1h6v1h4v-1h6v-1h-6v-1h-4m2 .5c.554 0 1 .446 1 1 0 .554-.446 1-1 1-.554 0-1-.446-1-1 0-.554.446-1 1-1" class="ColorScheme-Text-shadow" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path style="fill:currentColor;fill-opacity:1;stroke:none" d="m3 3v1 11h1v-5h3v-.007813l.007813.007813 2-2h8.992188v7h1v-10h-6.992188l-2-2-.007812.007813v-.007813h-6-1m6 13v1h-6v1h6v1h4v-1h6v-1h-6v-1h-4m2 .5c.554 0 1 .446 1 1 0 .554-.446 1-1 1-.554 0-1-.446-1-1 0-.554.446-1 1-1" class="ColorScheme-Text" />
+  </g>
+</svg>

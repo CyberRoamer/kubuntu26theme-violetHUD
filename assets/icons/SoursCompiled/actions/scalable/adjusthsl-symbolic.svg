@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24">
+  <defs id="defs3051">
+    <style type="text/css" id="current-color-scheme">.ColorScheme-Accent { color: #3daee9; } .ColorScheme-Text { color: #fcfcfc; } </style>
+    <linearGradient id="linearGradient4469" inkscape:collect="always">
+      <stop id="stop4471" offset="0" style="stop-color:currentColor;stop-opacity:0.8" />
+      <stop id="stop4473" offset="1" style="stop-color:currentColor;stop-opacity:0" />
+    </linearGradient>
+    <linearGradient inkscape:collect="always" xlink:href="#linearGradient4469" id="linearGradient5093" x1="555.57141" y1="745.93359" x2="555.57141" y2="761.93359" gradientUnits="userSpaceOnUse" />
+  <style>.ColorScheme-Accent-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs>
+  <g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path style="opacity:1;fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" d="m 547.57141,745.93359 16,0 0,16.00001 -16,0 z" class="ColorScheme-Text-shadow" transform="translate(-544.57141,-742.93359)" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path style="opacity:1;fill:url(#linearGradient5093);fill-opacity:1;stroke:none" d="m 547.57141,745.93359 16,0 0,16.00001 -16,0 z" class="ColorScheme-Text" transform="translate(-544.57141,-742.93359)" />
+  </g>
+</svg>

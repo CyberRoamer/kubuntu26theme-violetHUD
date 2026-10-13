@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="24" version="1.1" height="24" viewBox="0 0 24 24">
+  <defs id="defs3871" />
+  <metadata id="metadata3874" />
+  <g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g inkscape:label="Capa 1" inkscape:groupmode="layer" id="layer1-shadow" transform="matrix(1 0 0 1 -326 -534.3622)" style="color:#4000ff !important">
+      <rect width="1" x="333" y="537.36218" height="16" style="fill:#4000ff;stroke-width:2; color:#4000ff !important" id="rect5552-shadow" />
+      <rect width="1" x="340" y="537.36218" height="16" style="fill:#4000ff;stroke-width:2; color:#4000ff !important" id="rect5552-2-shadow" />
+      <rect width="1" x="541.36218" y="-345" height="16" style="fill:#4000ff;stroke-width:2; color:#4000ff !important" id="rect5552-1-shadow" transform="matrix(0 1 -1 0 0 0)" />
+      <rect width="1" x="548.36218" y="-345" height="16" style="fill:#4000ff;stroke-width:2; color:#4000ff !important" id="rect5552-2-5-shadow" transform="matrix(0 1 -1 0 0 0)" />
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g inkscape:label="Capa 1" inkscape:groupmode="layer" id="layer1" transform="matrix(1 0 0 1 -326 -534.3622)">
+      <rect width="1" x="333" y="537.36218" height="16" style="fill:#04896a;stroke-width:2" id="rect5552" />
+      <rect width="1" x="340" y="537.36218" height="16" style="fill:#04896a;stroke-width:2" id="rect5552-2" />
+      <rect width="1" x="541.36218" y="-345" height="16" style="fill:#04896a;stroke-width:2" id="rect5552-1" transform="matrix(0 1 -1 0 0 0)" />
+      <rect width="1" x="548.36218" y="-345" height="16" style="fill:#04896a;stroke-width:2" id="rect5552-2-5" transform="matrix(0 1 -1 0 0 0)" />
+    </g>
+  </g>
+</svg>

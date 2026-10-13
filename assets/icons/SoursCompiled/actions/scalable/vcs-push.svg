@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" id="svg11" version="1.1" viewBox="0 0 24 24" width="24" height="24">
+  <style id="current-color-scheme" type="text/css">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path id="path3-shadow" class="ColorScheme-Text-shadow" d="m6 16h9v3h-9z" fill="#4000ff" stroke-linecap="square" stroke-width="1.10782" style="color:#4000ff !important" />
+    <path id="path5-shadow" class="ColorScheme-Text-shadow" d="m10 4h1v11h-1z" fill="#4000ff" stroke-linecap="square" style="color:#4000ff !important" />
+    <path id="path7-shadow" d="m10.5 2.7929688-4.7070312 4.7070312 0.7070312 0.7070312 4-4 3.646484 3.6464844 0.353516 0.3535156 0.707031-0.7070312-0.353515-0.3535156-4.353516-4.3535156z" class="ColorScheme-Text-shadow" fill="#4000ff" style="color:#4000ff !important" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path id="path3" class="ColorScheme-Text" d="m6 16h9v3h-9z" fill="currentColor" stroke-linecap="square" stroke-width="1.10782" />
+    <path id="path5" class="ColorScheme-Text" d="m10 4h1v11h-1z" fill="currentColor" stroke-linecap="square" />
+    <path id="path7" d="m10.5 2.7929688-4.7070312 4.7070312 0.7070312 0.7070312 4-4 3.646484 3.6464844 0.353516 0.3535156 0.707031-0.7070312-0.353515-0.3535156-4.353516-4.3535156z" class="ColorScheme-Text" fill="currentColor" />
+  </g>
+</svg>

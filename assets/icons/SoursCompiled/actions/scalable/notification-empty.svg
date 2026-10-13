@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-NegativeText { color: #da4453; } .ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-NegativeText-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g id="notification-empty-shadow" transform="translate(39 -41) translate(-40,40)" style="color:#4000ff !important">
+      <path id="path28-shadow" d="m1 1h22v22h-22z" fill="none" style="color:#4000ff !important" />
+      <path id="circle-outline-shadow" d="m12 4a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8zm0 1a7 7 0 0 1 7 7 7 7 0 0 1-7 7 7 7 0 0 1-7-7 7 7 0 0 1 7-7z" class="ColorScheme-Text-shadow" fill="#4000ff" style="color:#4000ff !important" />
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g id="notification-empty" transform="translate(39 -41) translate(-40,40)">
+      <path id="path28" d="m1 1h22v22h-22z" fill="none" />
+      <path id="circle-outline" d="m12 4a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8zm0 1a7 7 0 0 1 7 7 7 7 0 0 1-7 7 7 7 0 0 1-7-7 7 7 0 0 1 7-7z" class="ColorScheme-Text" fill="currentColor" />
+    </g>
+  </g>
+</svg>

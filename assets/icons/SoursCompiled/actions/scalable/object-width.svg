@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24" width="24" height="24">
+  <defs>
+    <style id="current-color-scheme" type="text/css">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs>
+  <g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" d="m3 6v10h1v-5-5h-1zm1 5 3.0508 3.0508 0.70703-0.70703-2.3438-2.3438 2.3438-2.3438-0.70703-0.70703-3.0508 3.0508zm14-5v5 5h1v-10h-1zm0 5-3.0508-3.0508-0.70703 0.70703 2.3438 2.3438-2.3438 2.3438 0.70703 0.70703 3.0508-3.0508zm-9-2v1 3 0.009766h4v-0.009766-0.99023-2.0098-1h-1-3zm1 1h2v2.0098h-2v-2.0098z" class="ColorScheme-Text-shadow" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path style="fill:currentColor;fill-opacity:1;stroke:none" d="m3 6v10h1v-5-5h-1zm1 5 3.0508 3.0508 0.70703-0.70703-2.3438-2.3438 2.3438-2.3438-0.70703-0.70703-3.0508 3.0508zm14-5v5 5h1v-10h-1zm0 5-3.0508-3.0508-0.70703 0.70703 2.3438 2.3438-2.3438 2.3438 0.70703 0.70703 3.0508-3.0508zm-9-2v1 3 0.009766h4v-0.009766-0.99023-2.0098-1h-1-3zm1 1h2v2.0098h-2v-2.0098z" class="ColorScheme-Text" />
+  </g>
+</svg>

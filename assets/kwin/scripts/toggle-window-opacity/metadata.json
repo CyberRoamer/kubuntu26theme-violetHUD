@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Name": "Toggle Window Opacity",
+        "Description": "Toggle the opacity of the active window",
+        "Id": "toggle-window-opacity",
+        "Version": "1.0",
+        "License": "GPL-3.0-or-later"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js",
+    "KPackageStructure": "KWin/Script"
+}

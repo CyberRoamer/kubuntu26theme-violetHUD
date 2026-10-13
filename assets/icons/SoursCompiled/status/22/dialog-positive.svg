@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" id="svg9" version="1.1" viewBox="0 0 24 24" width="24" height="24">
+  <style id="current-color-scheme" type="text/css">.ColorScheme-PositiveText { color: #27ae60; } .ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-PositiveText-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <rect id="rect3-shadow" class="ColorScheme-PositiveText-shadow" x="3" y="3" width="16" height="16" rx="1.4545455" fill="#4000ff" style="color:#4000ff !important" />
+    <path id="path5-shadow" d="M 18.99323,4.3805651 9,14 5.7332785,10.623339 4.3852425,12.059327 9,16.828 l 10,-10 z" fill="#4000ff" style="color:#4000ff !important" />
+  </g>
+</g><g transform="translate(1,1)">
+    <rect id="rect3" class="ColorScheme-PositiveText" x="3" y="3" width="16" height="16" rx="1.4545455" fill="currentColor" />
+    <path id="path5" d="M 18.99323,4.3805651 9,14 5.7332785,10.623339 4.3852425,12.059327 9,16.828 l 10,-10 z" fill="#fff" />
+  </g>
+</svg>

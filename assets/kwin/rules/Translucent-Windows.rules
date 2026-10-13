@@ -1,0 +1,6 @@
+[120c7ba0-cccf-410d-9626-a718ce56c3f5]
+Description=Translucent Windows
+opacityactive=90
+opacityactiverule=2
+opacityinactive=85
+opacityinactiverule=2

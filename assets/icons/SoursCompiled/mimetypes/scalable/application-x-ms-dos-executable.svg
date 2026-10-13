@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" id="svg1" width="24" height="24" version="1.1" viewBox="0 0 24 24">
+  <style id="current-color-scheme" type="text/css">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path id="path1-shadow" class="ColorScheme-Text-shadow" d="m2 3v17h17v-17zm1 3h15v13h-15z" fill="#4000ff" style="color:#4000ff !important" />
+    <rect id="rect1-shadow" x="11" y="8" width="4" height="4" fill="#4000ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" style="color:#4000ff !important" />
+    <rect id="rect2-shadow" x="6" y="8" width="4" height="4" fill="#4000ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" style="color:#4000ff !important" />
+    <rect id="rect3-shadow" x="11" y="13" width="4" height="4" fill="#4000ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" style="color:#4000ff !important" />
+    <rect id="rect4-shadow" x="6" y="13" width="4" height="4" fill="#4000ff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" style="color:#4000ff !important" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path id="path1" class="ColorScheme-Text" d="m2 3v17h17v-17zm1 3h15v13h-15z" fill="currentColor" />
+    <rect id="rect1" x="11" y="8" width="4" height="4" fill="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+    <rect id="rect2" x="6" y="8" width="4" height="4" fill="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+    <rect id="rect3" x="11" y="13" width="4" height="4" fill="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+    <rect id="rect4" x="6" y="13" width="4" height="4" fill="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" />
+  </g>
+</svg>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:ns4="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" version="1.1" id="svg6" sodipodi:docname="office-chart-pie.svg" inkscape:version="1.4 (e7c3feb100, 2024-10-09)">
+  <metadata id="metadata10">
+    <rdf:RDF>
+      <ns4:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </ns4:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#ffffff" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1920" inkscape:window-height="1014" id="namedview8" showgrid="false" inkscape:zoom="45.254834" inkscape:cx="6.3529125" inkscape:cy="8.8609318" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="svg6" inkscape:document-rotation="0" inkscape:showpageshadow="0" inkscape:pagecheckerboard="1" inkscape:deskcolor="#ffffff" />
+  <defs id="defs3051">
+    <linearGradient inkscape:collect="always" id="linearGradient821">
+      <stop style="stop-color:#ff69ff;stop-opacity:1;" offset="0" id="stop817" />
+      <stop style="stop-color:#9033dd;stop-opacity:1;" offset="1" id="stop819" />
+    </linearGradient>
+    <style type="text/css" id="current-color-scheme">
+      .ColorScheme-Text {
+        color:#eff0f1;
+      }
+      </style>
+    <linearGradient inkscape:collect="always" xlink:href="#linearGradient821" id="linearGradient823" x1="8" y1="14" x2="2" y2="8" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-1,0,0,1,16,0)" />
+  <style>
+      .ColorScheme-Text-shadow {
+        color:#4000ff;
+      }
+      </style></defs>
+  <g id="purple-offset-shadow" transform="translate(1,1)" fill="#4000ff" color="#4000ff"><path style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" d="M 8,2 A 6.0000019,6.0000148 0 0 0 2,8 6.0000019,6.0000148 0 0 0 8,14 6.0000019,6.0000148 0 0 0 14,8 6.0000019,6.0000148 0 0 0 8,2 Z m 0,1 v 5 h 5 A 5,5 0 0 1 8,13 5,5 0 0 1 3,8 5,5 0 0 1 8,3 Z" class="ColorScheme-Text-shadow" id="path4-shadow" />
+</g><path style="fill:#ffffff;fill-opacity:1;stroke:none" d="M 8,2 A 6.0000019,6.0000148 0 0 0 2,8 6.0000019,6.0000148 0 0 0 8,14 6.0000019,6.0000148 0 0 0 14,8 6.0000019,6.0000148 0 0 0 8,2 Z m 0,1 v 5 h 5 A 5,5 0 0 1 8,13 5,5 0 0 1 3,8 5,5 0 0 1 8,3 Z" class="ColorScheme-Text" id="path4" />
+</svg>

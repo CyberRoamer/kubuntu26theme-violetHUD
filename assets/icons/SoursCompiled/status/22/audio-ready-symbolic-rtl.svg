@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24" width="24" height="24">
+  <style id="current-color-scheme" type="text/css">.ColorScheme-NeutralText { color: #f67400; } .ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-NeutralText-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path class="ColorScheme-Text-shadow" d="m11.011719 3 4.988281 4.9902344v6.0195656l-4.988281 4.9902h-1.011719v-16zm7.988281 5v6h-2v-6z" fill="#4000ff" style="color:#4000ff !important" />
+    <circle class="ColorScheme-NeutralText-shadow" transform="scale(-1,1)" cx="-6" cy="11" r="3" fill="#4000ff" style="color:#4000ff !important" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path class="ColorScheme-Text" d="m11.011719 3 4.988281 4.9902344v6.0195656l-4.988281 4.9902h-1.011719v-16zm7.988281 5v6h-2v-6z" fill="currentColor" />
+    <circle class="ColorScheme-NeutralText" transform="scale(-1,1)" cx="-6" cy="11" r="3" fill="currentColor" />
+  </g>
+</svg>

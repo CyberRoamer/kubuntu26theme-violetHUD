@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-Accent { color: #3daee9; } .ColorScheme-Background { color: #2a2e32; } .ColorScheme-ButtonText { color: #31363b; } .ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Accent-shadow { color:#4000ff; } .ColorScheme-Background-shadow { color:#4000ff; } .ColorScheme-ButtonText-shadow { color:#4000ff; } .ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g id="ime-punctuation-halfwidth-shadow" transform="translate(154,-59.999974) translate(-154,-110)" style="color:#4000ff !important">
+      <rect style="fill:none;fill-opacity:1;stroke:none; color:#4000ff !important" id="rect4231-shadow" width="22" height="22" x="-2.4709701e-09" y="170" />
+      <circle r="1.5" style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" class="ColorScheme-Text-shadow" id="ellipse4233-shadow" cx="7.5" cy="180.5" />
+      <path id="circle4235-shadow" d="m 14.5,178.99997 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 1.5,1.5 0 0 0 0.04688,-0.002 c -0.53325,0.93921 -1.34766,1.60156 -1.34766,1.60156 l 0.60156,0.80078 c 0,0 1.96734,-1.42635 2.16211,-3.57226 A 1.5,1.5 0 0 0 16,180.49997 a 1.5,1.5 0 0 0 -1.5,-1.5 z" style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" class="ColorScheme-Text-shadow" />
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g id="ime-punctuation-halfwidth" transform="translate(154,-59.999974) translate(-154,-110)">
+      <rect style="fill:none;fill-opacity:1;stroke:none" id="rect4231" width="22" height="22" x="-2.4709701e-09" y="170" />
+      <circle r="1.5" style="fill:currentColor;fill-opacity:1;stroke:none" class="ColorScheme-Text" id="ellipse4233" cx="7.5" cy="180.5" />
+      <path id="circle4235" d="m 14.5,178.99997 a 1.5,1.5 0 0 0 -1.5,1.5 1.5,1.5 0 0 0 1.5,1.5 1.5,1.5 0 0 0 0.04688,-0.002 c -0.53325,0.93921 -1.34766,1.60156 -1.34766,1.60156 l 0.60156,0.80078 c 0,0 1.96734,-1.42635 2.16211,-3.57226 A 1.5,1.5 0 0 0 16,180.49997 a 1.5,1.5 0 0 0 -1.5,-1.5 z" style="fill:currentColor;fill-opacity:1;stroke:none" class="ColorScheme-Text" />
+    </g>
+  </g>
+</svg>

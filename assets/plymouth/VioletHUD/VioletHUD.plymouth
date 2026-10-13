@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=VioletHUD
+Description=VioletHUD Plymouth boot splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/VioletHUD
+ScriptFile=/usr/share/plymouth/themes/VioletHUD/VioletHUD.script

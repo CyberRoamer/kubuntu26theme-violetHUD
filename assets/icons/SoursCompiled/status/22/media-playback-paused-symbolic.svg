@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g id="media-playback-paused-shadow" transform="translate(48) translate(-24,0)" style="color:#4000ff !important">
+      <path d="m-24 0h22v22h-22z" fill="none" style="color:#4000ff !important" />
+      <g class="ColorScheme-Text-shadow" fill="#4000ff" fill-rule="evenodd" style="color:#4000ff !important">
+        <path d="m-16 8h2v6h-2z" style="color:#4000ff !important" />
+        <path d="m-12 8h2v6h-2z" style="color:#4000ff !important" />
+        <path d="m-13 3a8 8 0 0 0 -8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0 -8-8zm0 1a7 7 0 0 1 7 7 7 7 0 0 1 -7 7 7 7 0 0 1 -7-7 7 7 0 0 1 7-7z" style="color:#4000ff !important" />
+      </g>
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g id="media-playback-paused" transform="translate(48) translate(-24,0)">
+      <path d="m-24 0h22v22h-22z" fill="none" />
+      <g class="ColorScheme-Text" fill="currentColor" fill-rule="evenodd">
+        <path d="m-16 8h2v6h-2z" />
+        <path d="m-12 8h2v6h-2z" />
+        <path d="m-13 3a8 8 0 0 0 -8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0 -8-8zm0 1a7 7 0 0 1 7 7 7 7 0 0 1 -7 7 7 7 0 0 1 -7-7 7 7 0 0 1 7-7z" />
+      </g>
+    </g>
+  </g>
+</svg>

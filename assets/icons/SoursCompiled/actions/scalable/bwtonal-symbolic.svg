@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <defs id="defs3051">
+    <style type="text/css" id="current-color-scheme">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs>
+  <g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <g transform="translate(-544.57141-742.93359)" style="fill:#4000ff;fill-opacity:1;stroke:none; color:#4000ff !important" class="ColorScheme-Text-shadow">
+      <circle r="4.999998" cy="756.93359" cx="558.57141" style="opacity:.8; color:#4000ff !important" />
+      <circle r="4.999998" cy="756.93359" cx="552.57141" style="opacity:.4; color:#4000ff !important" />
+      <circle r="4.999998" cy="750.93359" cx="555.57141" style="opacity:.6; color:#4000ff !important" />
+    </g>
+  </g>
+</g><g transform="translate(1,1)">
+    <g transform="translate(-544.57141-742.93359)" style="fill:currentColor;fill-opacity:1;stroke:none" class="ColorScheme-Text">
+      <circle r="4.999998" cy="756.93359" cx="558.57141" style="opacity:.8" />
+      <circle r="4.999998" cy="756.93359" cx="552.57141" style="opacity:.4" />
+      <circle r="4.999998" cy="750.93359" cx="555.57141" style="opacity:.6" />
+    </g>
+  </g>
+</svg>

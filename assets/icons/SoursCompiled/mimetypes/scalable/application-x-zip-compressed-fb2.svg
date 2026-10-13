@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path d="M17 6l-5 5 5 5 5-5z" fill="#4000ff" style="color:#4000ff !important" />
+    <path d="M2.5 3a.5.5 0 0 0-.5.5V7H1v1h1v11h1V8h2V7H3V4h2V3zM6 3v16h4.5a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5H7V3zm1 5h3v10H7z" class="ColorScheme-Text-shadow" fill="#4000ff" style="color:#4000ff !important" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path d="M17 6l-5 5 5 5 5-5z" fill="#f90" />
+    <path d="M2.5 3a.5.5 0 0 0-.5.5V7H1v1h1v11h1V8h2V7H3V4h2V3zM6 3v16h4.5a.5.5 0 0 0 .5-.5v-11a.5.5 0 0 0-.5-.5H7V3zm1 5h3v10H7z" class="ColorScheme-Text" fill="currentColor" />
+  </g>
+</svg>

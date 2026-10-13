@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <style type="text/css" id="current-color-scheme">.ColorScheme-Text { color: #fcfcfc; } </style>
+  <defs><style>.ColorScheme-Text-shadow { color:#4000ff; } </style></defs><g id="purple-offset-shadow" transform="translate(1.5,1.5)" fill="#4000ff" color="#4000ff"><g transform="translate(1,1)" style="color:#4000ff !important">
+    <path d="m3 3h16v16h-16z" class="ColorScheme-Text-shadow" fill="#4000ff" style="color:#4000ff !important" />
+  </g>
+</g><g transform="translate(1,1)">
+    <path d="m3 3h16v16h-16z" class="ColorScheme-Text" fill="currentColor" />
+  </g>
+</svg>
