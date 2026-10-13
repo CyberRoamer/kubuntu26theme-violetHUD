@@ -12,13 +12,11 @@ This document outlines the technical details and installation targets for each m
 
 ---
 
-## 2. Color Schemes
-* **Paths:**
-  * `assets/color-schemes/PurpleHUD.colors`
-  * `assets/color-schemes/LavenderHUD.colors`
+## 2. Color Scheme
+* **Path:** `assets/color-schemes/PurpleHUD.colors`
 * **Target:** `/usr/share/color-schemes/`
 * **Config Key:** `kdeglobals` -> `[General]` -> `ColorScheme=PurpleHUD`
-* **Description:** High-contrast dark themes featuring curated violet and purple accents (`#300090`, `#900060`, `#2b0050`) calibrated for terminal and desktop productivity.
+* **Description:** High-contrast dark theme featuring curated violet and purple accents (`#300090`, `#900060`, `#2b0050`) calibrated for terminal and desktop productivity.
 
 ---
 

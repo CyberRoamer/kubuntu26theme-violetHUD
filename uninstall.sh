@@ -143,6 +143,7 @@ if [ -n "${SUDO_USER:-}" ] && [ -d "$BACKUP_DIR/user-config" ]; then
     fi
 
     remove_tree "$USER_HOME/.local/share/color-schemes/PurpleHUD.colors"
+    remove_tree "$USER_HOME/.local/share/color-schemes/LavenderHUD.colors"
     remove_tree "$USER_HOME/.local/share/aurorae/themes/VioletHUD"
     remove_tree "$USER_HOME/.local/share/icons/SoursCompiled"
     remove_tree "$USER_HOME/.local/share/icons/invader-64-purple"

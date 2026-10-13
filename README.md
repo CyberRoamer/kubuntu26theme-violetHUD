@@ -20,7 +20,7 @@
 | Component | Asset / Package | Target Path | Description |
 | :--- | :--- | :--- | :--- |
 | **Window Decoration** | `assets/aurorae/VioletHUD` | `/usr/share/aurorae/themes/` | Neon violet vector borders and buttons |
-| **Color Schemes** | `PurpleHUD.colors`, `LavenderHUD.colors` | `/usr/share/color-schemes/` | High-contrast violet and purple palettes |
+| **Color Scheme** | `PurpleHUD.colors` | `/usr/share/color-schemes/` | High-contrast neon violet and obsidian palette |
 | **Cursor Theme** | `invader-64-purple` (Alienware Purple) | `/usr/share/icons/` | Full animated Alienware purple cursor suite at 48px/64px |
 | **Icon Theme** | `SoursCompiled` | `/usr/share/icons/` | Custom glowing icon theme |
 | **Widget Style** | `VioletHUD` (Kvantum) | `/usr/share/Kvantum/` | Translucent SVG widget styling |

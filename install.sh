@@ -176,11 +176,9 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     # Aurorae Window Decoration
     install_tree "$ASSETS_DIR/aurorae/VioletHUD" "/usr/share/aurorae/themes/VioletHUD"
 
-    # Color Schemes
+    # Color Scheme
     install_file "$ASSETS_DIR/color-schemes/PurpleHUD.colors" "/usr/share/color-schemes/PurpleHUD.colors"
-    if [ -f "$ASSETS_DIR/color-schemes/LavenderHUD.colors" ]; then
-        install_file "$ASSETS_DIR/color-schemes/LavenderHUD.colors" "/usr/share/color-schemes/LavenderHUD.colors"
-    fi
+    rm -f /usr/share/color-schemes/LavenderHUD.colors 2>/dev/null || true
 
     # Kvantum Style
     install_tree "$ASSETS_DIR/kvantum/VioletHUD" "/usr/share/Kvantum/VioletHUD"
@@ -337,6 +335,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     if [ -f "$ASSETS_DIR/color-schemes/PurpleHUD.colors" ]; then
         run_as_user cp -a "$ASSETS_DIR/color-schemes"/* "$USER_HOME/.local/share/color-schemes/"
     fi
+    run_as_user rm -f "$USER_HOME/.local/share/color-schemes/LavenderHUD.colors"
     if [ -d "$ASSETS_DIR/aurorae/VioletHUD" ]; then
         run_as_user cp -a "$ASSETS_DIR/aurorae/VioletHUD" "$USER_HOME/.local/share/aurorae/themes/"
     fi
