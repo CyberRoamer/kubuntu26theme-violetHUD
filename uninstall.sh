@@ -55,6 +55,14 @@ if [ -f /etc/sddm.conf.d/kde_settings.conf ]; then
     echo -e "  ${YELLOW}[REMOVE]${RESET} /etc/sddm.conf.d/kde_settings.conf"
 fi
 
+for sddm_theme in breeze kubuntu; do
+    if [ -f "/usr/share/sddm/themes/$sddm_theme/theme.conf.user" ]; then
+        rm -f "/usr/share/sddm/themes/$sddm_theme/theme.conf.user"
+        rm -f "/usr/share/sddm/themes/$sddm_theme/VioletHUD.jpg"
+        echo -e "  ${YELLOW}[REMOVE]${RESET} /usr/share/sddm/themes/$sddm_theme/theme.conf.user"
+    fi
+done
+
 # ------------------------------------------------------------------------------
 # Restore System Backups (SDDM & Plymouth)
 # ------------------------------------------------------------------------------
@@ -117,6 +125,7 @@ if [ -n "${SUDO_USER:-}" ] && [ -d "$BACKUP_DIR/user-config" ]; then
         done
     }
 
+    restore_user_cfg "konsolerc"
     restore_user_cfg "kdeglobals"
     restore_user_cfg "kwinrc"
     restore_user_cfg "kwinrulesrc"
@@ -125,7 +134,21 @@ if [ -n "${SUDO_USER:-}" ] && [ -d "$BACKUP_DIR/user-config" ]; then
     restore_user_cfg "plasma-org.kde.plasma.desktop-appletsrc"
     restore_user_cfg "plasmashellrc"
 
+    # Restore or clean profile picture / avatar
+    if [ -f "$BACKUP_DIR/user-config"/*__face ]; then
+        cp -a "$BACKUP_DIR/user-config"/*__face "$USER_HOME/.face"
+        chown "$SUDO_USER:$SUDO_USER" "$USER_HOME/.face"
+        echo -e "  ${GREEN}[RESTORE]${RESET} $USER_HOME/.face"
+    fi
+
+    remove_tree "$USER_HOME/.local/share/color-schemes/PurpleHUD.colors"
+    remove_tree "$USER_HOME/.local/share/aurorae/themes/VioletHUD"
+    remove_tree "$USER_HOME/.local/share/icons/SoursCompiled"
     remove_tree "$USER_HOME/.local/share/icons/invader-64-purple"
+    remove_tree "$USER_HOME/.local/share/konsole/VioletHUD.profile"
+    remove_tree "$USER_HOME/.local/share/konsole/Tronnix.colorscheme"
+    remove_tree "$USER_HOME/.local/share/plasma/look-and-feel/VioletHUD"
+    remove_tree "$USER_HOME/.local/share/wallpapers/VioletHUD"
     remove_tree "$USER_HOME/.icons/invader-64-purple"
     remove_tree "$USER_HOME/.icons/default"
 

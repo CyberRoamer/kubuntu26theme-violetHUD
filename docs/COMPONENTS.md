@@ -49,15 +49,18 @@ This document outlines the technical details and installation targets for each m
 * **Paths:**
   * `assets/konsole/VioletHUD.profile`
   * `assets/konsole/Tronnix.colorscheme`
-* **Target:** `/usr/share/konsole/`
-* **Description:** Semi-transparent terminal profile with neon purple syntax highlighting and custom ANSI color mapping.
+* **Targets:**
+  * System: `/usr/share/konsole/`
+  * User: `~/.local/share/konsole/`
+* **Config Key:** `konsolerc` -> `[Desktop Entry]` -> `DefaultProfile=VioletHUD.profile`
+* **Description:** Semi-transparent terminal profile with neon purple syntax highlighting, custom violet cursor (`#a855f7`), and standalone configuration. Automatically selected as default profile.
 
 ---
 
 ## 7. Splash Screen (Plasma Look-and-Feel)
 * **Path:** `assets/plasma/look-and-feel/VioletHUD`
 * **Target:** `/usr/share/plasma/look-and-feel/VioletHUD`
-* **Config Key:** `ksplashrc` -> `[KSplash]` -> `Theme=VioletHUD`
+* **Config Key:** `ksplashrc` -> `[KSplash]` -> `Theme=VioletHUD`, `Engine=KSplashQML`
 * **Description:** Plasma 6 splash animation cleanly self-branded without external welcome text.
 
 ---
@@ -88,21 +91,37 @@ This document outlines the technical details and installation targets for each m
 ---
 
 ## 10. SDDM Login Screen
-* **Path:** `assets/sddm/kde_settings.conf`
-* **Target:** `/etc/sddm.conf.d/kde_settings.conf`
-* **Description:** Standardizes the login screen to Breeze dark mode with the `invader-64-purple` cursor at 48px.
+* **Paths:**
+  * `assets/sddm/kde_settings.conf`
+  * `assets/sddm/theme.conf.user`
+* **Targets:**
+  * `/etc/sddm.conf.d/kde_settings.conf`
+  * `/usr/share/sddm/themes/breeze/theme.conf.user`
+  * `/usr/share/sddm/themes/kubuntu/theme.conf.user`
+* **Description:** Standardizes the login screen to Breeze dark mode with the `invader-64-purple` cursor at 48px and applies the full-resolution VioletHUD Alienware background.
 
 ---
 
 ## 11. Plymouth Boot Theme
 * **Path:** `assets/plymouth/VioletHUD`
 * **Target:** `/usr/share/plymouth/themes/VioletHUD`
-* **Registration:** `plymouth-set-default-theme -R VioletHUD`
-* **Description:** High-resolution boot splash with blurred background transition and centered logo.
+* **Registration:** `update-alternatives --set default.plymouth ...` + `update-initramfs -u`
+* **Description:** High-resolution boot splash with blurred background transition, Alienware logo, and glowing purple progress indicators.
 
 ---
 
 ## 12. Wallpaper
 * **Path:** `assets/wallpapers/VioletHUD`
 * **Target:** `/usr/share/wallpapers/VioletHUD`
+* **Live Apply:** `plasma-apply-wallpaperimage`
 * **Description:** 1920x1080 Alienware Purple wallpaper structured as a standard KDE Wallpaper package.
+
+---
+
+## 13. User Profile Avatar
+* **Path:** `assets/avatar/user-avatar.png`
+* **Targets:**
+  * User: `~/.face` and `~/.face.icon`
+  * AccountsService: `/var/lib/AccountsService/icons/$USER`
+* **Description:** 512x512 glowing violet Alienware emblem avatar badge, automatically applied to the active user's desktop profile, lock screen, and SDDM greeter.
+

@@ -195,11 +195,24 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     # KWin Opacity Script
     install_tree "$ASSETS_DIR/kwin/scripts/toggle-window-opacity" "/usr/share/kwin/scripts/toggle-window-opacity"
 
-    # SDDM Login Configuration
+    # SDDM Login Configuration & Background
     mkdir -p /etc/sddm.conf.d
     backup_file /etc/sddm.conf
     backup_file /etc/sddm.conf.d/kde_settings.conf
     install_file "$ASSETS_DIR/sddm/kde_settings.conf" "/etc/sddm.conf.d/kde_settings.conf"
+
+    # Configure background for Breeze and Kubuntu SDDM themes
+    for sddm_theme in breeze kubuntu; do
+        if [ -d "/usr/share/sddm/themes/$sddm_theme" ]; then
+            backup_file "/usr/share/sddm/themes/$sddm_theme/theme.conf.user"
+            install_file "$ASSETS_DIR/sddm/theme.conf.user" "/usr/share/sddm/themes/$sddm_theme/theme.conf.user"
+            if [ -f "$ASSETS_DIR/wallpapers/VioletHUD/VioletHUD.jpg" ]; then
+                cp -a "$ASSETS_DIR/wallpapers/VioletHUD/VioletHUD.jpg" "/usr/share/sddm/themes/$sddm_theme/VioletHUD.jpg"
+                cp -a "$ASSETS_DIR/wallpapers/VioletHUD/VioletHUD.jpg" "/usr/share/sddm/themes/$sddm_theme/alienware_purple.webp" 2>/dev/null || true
+            fi
+            echo -e "  ${GREEN}[SDDM]${RESET} Configured VioletHUD background for $sddm_theme login theme"
+        fi
+    done
 
     # Plymouth Boot Splash
     install_tree "$ASSETS_DIR/plymouth/VioletHUD" "/usr/share/plymouth/themes/VioletHUD"
@@ -309,6 +322,78 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     backup_user_file "$USER_CONFIG/kwinrulesrc"
     backup_user_file "$USER_CONFIG/ksplashrc"
     backup_user_file "$USER_CONFIG/kcminputrc"
+    backup_user_file "$USER_CONFIG/konsolerc"
+
+    # User local asset trees (for Wayland / Qt6 / GTK user-level discovery)
+    run_as_user mkdir -p \
+        "$USER_HOME/.local/share/color-schemes" \
+        "$USER_HOME/.local/share/aurorae/themes" \
+        "$USER_HOME/.local/share/icons" \
+        "$USER_HOME/.local/share/konsole" \
+        "$USER_HOME/.local/share/plasma/look-and-feel" \
+        "$USER_HOME/.local/share/wallpapers"
+
+    if [ -f "$ASSETS_DIR/color-schemes/PurpleHUD.colors" ]; then
+        run_as_user cp -a "$ASSETS_DIR/color-schemes"/* "$USER_HOME/.local/share/color-schemes/"
+    fi
+    if [ -d "$ASSETS_DIR/aurorae/VioletHUD" ]; then
+        run_as_user cp -a "$ASSETS_DIR/aurorae/VioletHUD" "$USER_HOME/.local/share/aurorae/themes/"
+    fi
+    if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
+        run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
+    fi
+    if [ -d "$ASSETS_DIR/plasma/look-and-feel/VioletHUD" ]; then
+        run_as_user cp -a "$ASSETS_DIR/plasma/look-and-feel/VioletHUD" "$USER_HOME/.local/share/plasma/look-and-feel/"
+    fi
+    if [ -d "$ASSETS_DIR/wallpapers/VioletHUD" ]; then
+        run_as_user cp -a "$ASSETS_DIR/wallpapers/VioletHUD" "$USER_HOME/.local/share/wallpapers/"
+    fi
+
+    # Konsole Profile & Colorscheme Setup
+    if [ -f "$ASSETS_DIR/konsole/VioletHUD.profile" ]; then
+        run_as_user cp -a "$ASSETS_DIR/konsole/VioletHUD.profile" "$USER_HOME/.local/share/konsole/"
+    fi
+    if [ -f "$ASSETS_DIR/konsole/Tronnix.colorscheme" ]; then
+        run_as_user cp -a "$ASSETS_DIR/konsole/Tronnix.colorscheme" "$USER_HOME/.local/share/konsole/"
+    fi
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/konsolerc" --group "Desktop Entry" --key DefaultProfile VioletHUD.profile
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/konsolerc" --group UiSettings --key ColorScheme PurpleHUD
+    echo -e "  ${GREEN}[KONSOLE]${RESET} Configured VioletHUD.profile as default in konsolerc"
+
+    # User Profile Picture (Avatar)
+    if [ -f "$ASSETS_DIR/avatar/user-avatar.png" ]; then
+        # System AccountsService
+        mkdir -p /var/lib/AccountsService/icons /var/lib/AccountsService/users
+        cp -a "$ASSETS_DIR/avatar/user-avatar.png" "/var/lib/AccountsService/icons/$USER_NAME"
+        chmod 644 "/var/lib/AccountsService/icons/$USER_NAME"
+
+        USER_ACT_FILE="/var/lib/AccountsService/users/$USER_NAME"
+        if [ -f "$USER_ACT_FILE" ]; then
+            if grep -q '^Icon=' "$USER_ACT_FILE"; then
+                sed -i "s#^Icon=.*#Icon=/var/lib/AccountsService/icons/$USER_NAME#" "$USER_ACT_FILE"
+            else
+                sed -i "/^\[User\]/a Icon=/var/lib/AccountsService/icons/$USER_NAME" "$USER_ACT_FILE" 2>/dev/null || \
+                echo "Icon=/var/lib/AccountsService/icons/$USER_NAME" >> "$USER_ACT_FILE"
+            fi
+        else
+            cat > "$USER_ACT_FILE" <<EOF
+[User]
+Icon=/var/lib/AccountsService/icons/$USER_NAME
+EOF
+        fi
+        chmod 600 "$USER_ACT_FILE"
+
+        # D-Bus AccountsService update
+        if command -v busctl >/dev/null 2>&1; then
+            busctl call org.freedesktop.Accounts "/org/freedesktop/Accounts/User$USER_UID" org.freedesktop.Accounts.User SetIconFile s "/var/lib/AccountsService/icons/$USER_NAME" 2>/dev/null || true
+        fi
+
+        # User ~/.face and ~/.face.icon
+        backup_user_file "$USER_HOME/.face"
+        install_user_file "$ASSETS_DIR/avatar/user-avatar.png" "$USER_HOME/.face"
+        run_as_user ln -sf .face "$USER_HOME/.face.icon"
+        echo -e "  ${GREEN}[AVATAR]${RESET} Set profile picture to VioletHUD avatar"
+    fi
 
     # Global Style, Scheme, Icons
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key widgetStyle Breeze
@@ -333,22 +418,30 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
 Inherits=invader-64-purple
 EOF
 
-    # GTK Cursor Settings
+    # GTK Cursor & Icon Settings
     for gtk_dir in "$USER_CONFIG/gtk-3.0" "$USER_CONFIG/gtk-4.0"; do
         if [ -d "$gtk_dir" ]; then
             if [ -f "$gtk_dir/settings.ini" ]; then
                 run_as_user sed -i 's/^gtk-cursor-theme-name=.*/gtk-cursor-theme-name=invader-64-purple/' "$gtk_dir/settings.ini" 2>/dev/null || true
                 run_as_user sed -i 's/^gtk-cursor-theme-size=.*/gtk-cursor-theme-size=48/' "$gtk_dir/settings.ini" 2>/dev/null || true
+                run_as_user sed -i 's/^gtk-icon-theme-name=.*/gtk-icon-theme-name=SoursCompiled/' "$gtk_dir/settings.ini" 2>/dev/null || true
             fi
         fi
     done
 
     # Splash Screen
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Theme VioletHUD
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Engine KSplashQML
 
     # Aurorae Window Decoration
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
+
+    # Live apply themes to running Plasma session
+    run_as_user plasma-apply-colorscheme PurpleHUD 2>/dev/null || true
+    run_as_user plasma-apply-cursortheme invader-64-purple --size 48 2>/dev/null || true
+    run_as_user plasma-apply-wallpaperimage /usr/share/wallpapers/VioletHUD/VioletHUD.jpg 2>/dev/null || \
+    run_as_user plasma-apply-wallpaperimage "$USER_HOME/.local/share/wallpapers/VioletHUD/VioletHUD.jpg" 2>/dev/null || true
 
     # Enable Opacity Script
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group Plugins --key toggle-window-opacityEnabled true
@@ -469,9 +562,11 @@ chown "$USER_NAME:$USER_NAME" \
     "$USER_CONFIG/kwinrulesrc" \
     "$USER_CONFIG/ksplashrc" \
     "$USER_CONFIG/kcminputrc" \
+    "$USER_CONFIG/konsolerc" \
+    "$USER_HOME/.face" \
     2>/dev/null || true
 
-# Reconfigure KWin and notify desktop of cursor and theme changes
+# Reconfigure KWin and notify desktop of cursor, icon, and theme changes
 if [ -d "$USER_RUNDIR" ]; then
     sudo -u "$USER_NAME" \
         env XDG_RUNTIME_DIR="$USER_RUNDIR" \
@@ -481,6 +576,14 @@ if [ -d "$USER_RUNDIR" ]; then
         env XDG_RUNTIME_DIR="$USER_RUNDIR" \
             DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
             dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0 2>/dev/null || true
+    sudo -u "$USER_NAME" \
+        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
+            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
+            dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:1 int32:0 2>/dev/null || true
+    sudo -u "$USER_NAME" \
+        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
+            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
+            dbus-send --type=signal /KIconLoader org.kde.KIconLoader.iconChanged int32:0 2>/dev/null || true
 fi
 
 echo
@@ -489,15 +592,16 @@ echo -e "${GREEN}${BOLD} VioletHUD Successfully Installed!${RESET}"
 echo -e "${PURPLE}${BOLD}============================================================${RESET}"
 echo
 echo -e "${BOLD}Installed Components:${RESET}"
+echo "  • Profile Avatar: VioletHUD Alienware Glow (~/.face & AccountsService)"
 echo "  • Icons         : SoursCompiled"
 echo "  • Cursor        : Invader 64 Purple"
 echo "  • Decoration    : VioletHUD (Aurorae)"
 echo "  • Color Scheme  : PurpleHUD"
 echo "  • Kvantum Style : VioletHUD"
-echo "  • Konsole       : VioletHUD.profile / Tronnix.colorscheme"
+echo "  • Konsole       : VioletHUD.profile (Selected as Default)"
 echo "  • Splash Screen : VioletHUD"
 echo "  • Plymouth Boot : VioletHUD"
-echo "  • SDDM Login    : Breeze (Purple Invader Cursor)"
+echo "  • SDDM Login    : Breeze (VioletHUD Background & Purple Cursor)"
 echo "  • Wallpaper     : VioletHUD (Alienware Purple)"
 if [[ "$INSTALL_MODE" != "no-panels" ]]; then
     echo "  • HUD Panels    : 5 Floating Panels (Weather, Monitors, Dock, Clock, Tray)"
