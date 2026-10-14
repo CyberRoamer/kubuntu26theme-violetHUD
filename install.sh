@@ -416,6 +416,9 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     run_as_user rm -rf "$USER_HOME/.local/share/aurorae/themes/VioletHUD"
     if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
         run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
+        if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+            run_as_user gtk-update-icon-cache -f "$USER_HOME/.local/share/icons/SoursCompiled" 2>/dev/null || true
+        fi
     fi
     # Ensure no duplicate local Look-and-Feel / Splash theme exists
     run_as_user rm -rf "$USER_HOME/.local/share/plasma/look-and-feel/VioletHUD"
@@ -619,6 +622,8 @@ EOF
     # Clear stale icon caches
     run_as_user rm -f "$USER_HOME/.cache/icon-cache.kcache" 2>/dev/null || true
     run_as_user rm -rf "$USER_HOME/.cache/ksycoca6"* 2>/dev/null || true
+    run_as_user rm -rf "$USER_HOME/.cache/plasma_theme"* 2>/dev/null || true
+    run_as_user rm -rf "$USER_HOME/.cache/plasma-svgelements"* 2>/dev/null || true
     run_as_user kbuildsycoca6 --noincremental 2>/dev/null || true
 
     # Enable Blur Effect and Opacity Script for frosted glass HUD panels

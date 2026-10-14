@@ -69,14 +69,14 @@ Type=Scalable
 Size=16
 Context=Places
 MinSize=8
-MaxSize=32
+MaxSize=16
 Type=Scalable
 
 
 [places/48]
 Size=48
 Context=Places
-MinSize=48
+MinSize=16
 MaxSize=512
 Type=Scalable
 
