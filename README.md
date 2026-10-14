@@ -79,7 +79,7 @@ The `--all` installation configures a modular 5-piece floating HUD layout:
 ```
 
 * **System Monitors:** Calibrated in deep violet (`#300090`) for CPU, Memory, and Network load.
-* **Dock:** Floating and transparent (`panelOpacity=0`) with pinned launchers.
+* **Dock:** Floating and translucent HUD panel with pinned launchers.
 
 ---
 

@@ -281,7 +281,7 @@ EOF
     kwriteconfig6 --file /etc/xdg/kdeglobals --group Icons --key Theme SoursCompiled
     kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key LookAndFeelPackage org.kubuntudark.desktop
     kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key widgetStyle Breeze
-    kwriteconfig6 --file /etc/xdg/plasmarc --group Theme --key name kubuntu-dark
+    kwriteconfig6 --file /etc/xdg/plasmarc --group Theme --key name default
     kwriteconfig6 --file /etc/xdg/kcminputrc --group Mouse --key cursorTheme invader-64-purple
     kwriteconfig6 --file /etc/xdg/kcminputrc --group Mouse --key cursorSize 48
     chmod 644 /etc/xdg/kdeglobals /etc/xdg/plasmarc /etc/xdg/kcminputrc 2>/dev/null || true
@@ -416,9 +416,8 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
         run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
     fi
-    if [ -d "$ASSETS_DIR/plasma/look-and-feel/VioletHUD" ]; then
-        run_as_user cp -a "$ASSETS_DIR/plasma/look-and-feel/VioletHUD" "$USER_HOME/.local/share/plasma/look-and-feel/"
-    fi
+    # Ensure no duplicate local Look-and-Feel / Splash theme exists
+    run_as_user rm -rf "$USER_HOME/.local/share/plasma/look-and-feel/VioletHUD"
     if [ -d "$ASSETS_DIR/wallpapers/VioletHUD" ]; then
         run_as_user cp -a "$ASSETS_DIR/wallpapers/VioletHUD" "$USER_HOME/.local/share/wallpapers/"
     fi
@@ -532,8 +531,8 @@ PY
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group General --key ColorScheme PurpleHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group Icons --key Theme SoursCompiled
 
-    # Plasma Theme (Kubuntu Dark)
-    run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name kubuntu-dark
+    # Plasma Theme (Default/Breeze for translucent glass HUD panels)
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name default
 
     # Lock Screen Settings (Kubuntu Dark theme & VioletHUD wallpaper)
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kscreenlockerrc" --group Greeter --group Wallpaper --group org.kde.image --group General --key Image /usr/share/wallpapers/VioletHUD/contents/images/1920x1080.jpg
@@ -599,7 +598,7 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
 
     # Live apply desktop theme, color scheme, cursor, and wallpaper
-    run_as_user plasma-apply-desktoptheme kubuntu-dark 2>/dev/null || true
+    run_as_user plasma-apply-desktoptheme default 2>/dev/null || true
     run_as_user plasma-apply-colorscheme PurpleHUD 2>/dev/null || true
     run_as_user plasma-apply-cursortheme invader-64-purple --size 48 2>/dev/null || true
     run_as_user plasma-apply-wallpaperimage /usr/share/wallpapers/VioletHUD/VioletHUD.jpg 2>/dev/null || \
@@ -612,7 +611,7 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorSize 48
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
-    run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name kubuntu-dark
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name default
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Theme VioletHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Engine KSplashQML
 
@@ -621,7 +620,11 @@ EOF
     run_as_user rm -rf "$USER_HOME/.cache/ksycoca6"* 2>/dev/null || true
     run_as_user kbuildsycoca6 --noincremental 2>/dev/null || true
 
-    # Enable Opacity Script
+    # Enable Blur Effect and Opacity Script for frosted glass HUD panels
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group Plugins --key blurEnabled true
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group Effect-blur --key BlurStrength 1
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group Effect-blur --key NoiseStrength 0
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group Effect-blur --key Saturation 100
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group Plugins --key toggle-window-opacityEnabled true
 
     # Translucent Windows KWin Rule
