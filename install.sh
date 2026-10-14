@@ -191,6 +191,61 @@ install_user_file() {
     fi
 }
 
+validate_and_repair_icons() {
+    local target_dir="$1"
+    if [ ! -d "$target_dir" ]; then
+        return
+    fi
+    local p48_folder="$target_dir/places/48/folder.svg"
+    local p48_dl="$target_dir/places/48/folder-download.svg"
+
+    if [ -f "$p48_folder" ]; then
+        for f in \
+            "$target_dir/mimetypes/scalable/inode-directory.svg" \
+            "$target_dir/mimetypes/scalable/inode-directory-symbolic.svg" \
+            "$target_dir/mimetypes/scalable/folder.svg" \
+            "$target_dir/mimetypes/scalable/folder-symbolic.svg" \
+            "$target_dir/mimetypes/scalable/directory.svg" \
+            "$target_dir/places/48/inode-directory.svg" \
+            "$target_dir/places/48/inode-directory-symbolic.svg" \
+            "$target_dir/places/48/folder-symbolic.svg" \
+            "$target_dir/places/48/directory.svg" \
+            "$target_dir/places/48/folder-directory.svg" \
+            "$target_dir/places/16/folder.svg" \
+            "$target_dir/places/16/folder-symbolic.svg" \
+            "$target_dir/places/16/inode-directory.svg" \
+            "$target_dir/places/16/inode-directory-symbolic.svg" \
+            "$target_dir/places/16/directory.svg"; do
+            if [ ! -s "$f" ] || [ ! -e "$f" ]; then
+                rm -f "$f"
+                cp -a "$p48_folder" "$f"
+            fi
+        done
+    fi
+
+    if [ -f "$p48_dl" ]; then
+        for f in \
+            "$target_dir/places/48/folder-downloads.svg" \
+            "$target_dir/places/48/user-downloads.svg" \
+            "$target_dir/places/48/user-download.svg" \
+            "$target_dir/places/48/download.svg" \
+            "$target_dir/places/48/downloads.svg" \
+            "$target_dir/places/48/download-folder.svg" \
+            "$target_dir/places/16/folder-download.svg" \
+            "$target_dir/places/16/folder-downloads.svg" \
+            "$target_dir/places/16/user-downloads.svg" \
+            "$target_dir/places/16/user-download.svg" \
+            "$target_dir/places/16/download.svg" \
+            "$target_dir/places/16/downloads.svg" \
+            "$target_dir/places/16/download-folder.svg"; do
+            if [ ! -s "$f" ] || [ ! -e "$f" ]; then
+                rm -f "$f"
+                cp -a "$p48_dl" "$f"
+            fi
+        done
+    fi
+}
+
 # ------------------------------------------------------------------------------
 # 1. System Assets Installation
 # ------------------------------------------------------------------------------
@@ -201,6 +256,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     # Icons
     rm -rf /usr/share/icons/SoursCompiled
     install_tree "$ASSETS_DIR/icons/SoursCompiled" "/usr/share/icons/SoursCompiled"
+    validate_and_repair_icons "/usr/share/icons/SoursCompiled"
 
     # Cursors (Alienware Invader Purple)
     rm -rf /usr/share/icons/Tronnix /usr/share/icons/invader-64-purple
@@ -418,6 +474,8 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
         run_as_user rm -rf "$USER_HOME/.local/share/icons/SoursCompiled"
         run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
+        validate_and_repair_icons "$USER_HOME/.local/share/icons/SoursCompiled"
+        chown -R "$USER_NAME:$USER_NAME" "$USER_HOME/.local/share/icons/SoursCompiled" 2>/dev/null || true
         if command -v gtk-update-icon-cache >/dev/null 2>&1; then
             run_as_user gtk-update-icon-cache -f "$USER_HOME/.local/share/icons/SoursCompiled" 2>/dev/null || true
         fi
