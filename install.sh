@@ -198,7 +198,10 @@ validate_and_repair_icons() {
     fi
     local p48_folder="$target_dir/places/48/folder.svg"
     local p48_dl="$target_dir/places/48/folder-download.svg"
+    local p16_folder="$target_dir/places/16/folder.svg"
+    local p16_dl="$target_dir/places/16/folder-download.svg"
 
+    # Main file manager view: places/48 & mimetypes (scalable glowing purple Cyberpunk folders)
     if [ -f "$p48_folder" ]; then
         for f in \
             "$target_dir/mimetypes/scalable/inode-directory.svg" \
@@ -210,12 +213,7 @@ validate_and_repair_icons() {
             "$target_dir/places/48/inode-directory-symbolic.svg" \
             "$target_dir/places/48/folder-symbolic.svg" \
             "$target_dir/places/48/directory.svg" \
-            "$target_dir/places/48/folder-directory.svg" \
-            "$target_dir/places/16/folder.svg" \
-            "$target_dir/places/16/folder-symbolic.svg" \
-            "$target_dir/places/16/inode-directory.svg" \
-            "$target_dir/places/16/inode-directory-symbolic.svg" \
-            "$target_dir/places/16/directory.svg"; do
+            "$target_dir/places/48/folder-directory.svg"; do
             if [ ! -s "$f" ] || [ ! -e "$f" ]; then
                 rm -f "$f"
                 cp -a "$p48_folder" "$f"
@@ -230,17 +228,41 @@ validate_and_repair_icons() {
             "$target_dir/places/48/user-download.svg" \
             "$target_dir/places/48/download.svg" \
             "$target_dir/places/48/downloads.svg" \
-            "$target_dir/places/48/download-folder.svg" \
-            "$target_dir/places/16/folder-download.svg" \
+            "$target_dir/places/48/download-folder.svg"; do
+            if [ ! -s "$f" ] || [ ! -e "$f" ]; then
+                rm -f "$f"
+                cp -a "$p48_dl" "$f"
+            fi
+        done
+    fi
+
+    # Sidebar view: places/16 (small white icons with purple offset shadow, 16px-24px)
+    if [ -f "$p16_folder" ]; then
+        for f in \
+            "$target_dir/places/16/folder-symbolic.svg" \
+            "$target_dir/places/16/inode-directory.svg" \
+            "$target_dir/places/16/inode-directory-symbolic.svg" \
+            "$target_dir/places/16/directory.svg"; do
+            if [ ! -s "$f" ] || [ ! -e "$f" ]; then
+                rm -f "$f"
+                cp -a "$p16_folder" "$f"
+            fi
+        done
+    fi
+
+    if [ -f "$p16_dl" ]; then
+        for f in \
             "$target_dir/places/16/folder-downloads.svg" \
             "$target_dir/places/16/user-downloads.svg" \
             "$target_dir/places/16/user-download.svg" \
             "$target_dir/places/16/download.svg" \
             "$target_dir/places/16/downloads.svg" \
-            "$target_dir/places/16/download-folder.svg"; do
+            "$target_dir/places/16/download-folder.svg" \
+            "$target_dir/places/16/folder_download.svg" \
+            "$target_dir/places/16/folder_downloads.svg"; do
             if [ ! -s "$f" ] || [ ! -e "$f" ]; then
                 rm -f "$f"
-                cp -a "$p48_dl" "$f"
+                cp -a "$p16_dl" "$f"
             fi
         done
     fi
