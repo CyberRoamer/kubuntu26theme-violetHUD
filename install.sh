@@ -81,12 +81,45 @@ fi
 USER_UID="$(id -u "$USER_NAME")"
 USER_RUNDIR="/run/user/$USER_UID"
 
+# Detect active user session display, wayland socket, and auth
+DETECTED_WAYLAND=""
+DETECTED_DISPLAY=""
+DETECTED_XAUTH=""
+
+if [ -d "$USER_RUNDIR" ]; then
+    DETECTED_WAYLAND="$(find "$USER_RUNDIR" -maxdepth 1 -name "wayland-*" 2>/dev/null | head -n1 | xargs -r basename || true)"
+fi
+
+if [ -z "$DETECTED_WAYLAND" ] && [ -n "${WAYLAND_DISPLAY:-}" ]; then
+    DETECTED_WAYLAND="$WAYLAND_DISPLAY"
+fi
+
+if [ -n "${DISPLAY:-}" ]; then
+    DETECTED_DISPLAY="$DISPLAY"
+else
+    DETECTED_DISPLAY="$(who 2>/dev/null | grep "^$USER_NAME " | grep -o '(:[0-9]*' | tr -d '()' | head -n1 || echo ":0")"
+fi
+
+if [ -n "${XAUTHORITY:-}" ] && [ -f "$XAUTHORITY" ]; then
+    DETECTED_XAUTH="$XAUTHORITY"
+elif [ -f "$USER_HOME/.Xauthority" ]; then
+    DETECTED_XAUTH="$USER_HOME/.Xauthority"
+fi
+
 run_as_user() {
     sudo -u "$USER_NAME" \
         env HOME="$USER_HOME" \
+            USER="$USER_NAME" \
+            LOGNAME="$USER_NAME" \
             XDG_CONFIG_HOME="$USER_CONFIG" \
-            DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=$USER_RUNDIR/bus}" \
+            XDG_DATA_HOME="$USER_HOME/.local/share" \
+            XDG_CACHE_HOME="$USER_HOME/.cache" \
             XDG_RUNTIME_DIR="${USER_RUNDIR:-}" \
+            DBUS_SESSION_BUS_ADDRESS="${DBUS_SESSION_BUS_ADDRESS:-unix:path=$USER_RUNDIR/bus}" \
+            WAYLAND_DISPLAY="${DETECTED_WAYLAND:-}" \
+            DISPLAY="${DETECTED_DISPLAY:-:0}" \
+            XAUTHORITY="${DETECTED_XAUTH:-}" \
+            QT_QPA_PLATFORM="wayland;xcb;offscreen" \
         "$@"
 }
 
@@ -215,7 +248,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
 
     # Configure SDDM user environment (/var/lib/sddm/.config)
     if id sddm >/dev/null 2>&1; then
-        mkdir -p /var/lib/sddm/.config
+        mkdir -p /var/lib/sddm/.config /var/lib/sddm/.icons/default
         cp -a "$ASSETS_DIR/color-schemes/PurpleHUD.colors" /var/lib/sddm/.config/kdeglobals
         kwriteconfig6 --file /var/lib/sddm/.config/kdeglobals --group General --key ColorScheme PurpleHUD
         kwriteconfig6 --file /var/lib/sddm/.config/kdeglobals --group Icons --key Theme SoursCompiled
@@ -225,9 +258,13 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
         kwriteconfig6 --file /var/lib/sddm/.config/kcminputrc --group Mouse --key cursorTheme invader-64-purple
         kwriteconfig6 --file /var/lib/sddm/.config/kcminputrc --group Mouse --key cursorSize 48
 
-        chown -R sddm:sddm /var/lib/sddm/.config 2>/dev/null || true
-        chmod 755 /var/lib/sddm/.config 2>/dev/null || true
-        chmod 644 /var/lib/sddm/.config/* 2>/dev/null || true
+        cat > /var/lib/sddm/.icons/default/index.theme <<'EOF'
+[Icon Theme]
+Inherits=invader-64-purple
+EOF
+        chown -R sddm:sddm /var/lib/sddm/.config /var/lib/sddm/.icons 2>/dev/null || true
+        chmod 755 /var/lib/sddm/.config /var/lib/sddm/.icons 2>/dev/null || true
+        chmod 644 /var/lib/sddm/.config/* /var/lib/sddm/.icons/default/* 2>/dev/null || true
         rm -rf /var/lib/sddm/.cache 2>/dev/null || true
         echo -e "  ${GREEN}[SDDM]${RESET} Configured SDDM user dark environment (Kubuntu Dark, PurpleHUD, SoursCompiled)"
     fi
@@ -245,7 +282,9 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key LookAndFeelPackage org.kubuntudark.desktop
     kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key widgetStyle Breeze
     kwriteconfig6 --file /etc/xdg/plasmarc --group Theme --key name kubuntu-dark
-    chmod 644 /etc/xdg/kdeglobals /etc/xdg/plasmarc 2>/dev/null || true
+    kwriteconfig6 --file /etc/xdg/kcminputrc --group Mouse --key cursorTheme invader-64-purple
+    kwriteconfig6 --file /etc/xdg/kcminputrc --group Mouse --key cursorSize 48
+    chmod 644 /etc/xdg/kdeglobals /etc/xdg/plasmarc /etc/xdg/kcminputrc 2>/dev/null || true
 
     # Plymouth Boot Splash
     install_tree "$ASSETS_DIR/plymouth/VioletHUD" "/usr/share/plymouth/themes/VioletHUD"
@@ -436,7 +475,58 @@ EOF
     run_as_user plasma-apply-lookandfeel -a org.kubuntudark.desktop 2>/dev/null || \
     run_as_user plasma-apply-lookandfeel -a org.kde.breezedark.desktop 2>/dev/null || true
 
-    # 2. Apply VioletHUD Specific Global Style, Scheme, Icons
+    # Clean up kdedefaults so it never overrides VioletHUD with BreezeDark/breeze-dark defaults
+    run_as_user rm -rf "$USER_CONFIG/kdedefaults"
+
+    # 2. Directly merge all PurpleHUD color definitions & icons into user kdeglobals
+    if [ -f "$ASSETS_DIR/color-schemes/PurpleHUD.colors" ]; then
+        run_as_user python3 - "$ASSETS_DIR/color-schemes/PurpleHUD.colors" "$USER_CONFIG/kdeglobals" <<'PY'
+import configparser, sys
+from pathlib import Path
+
+src = Path(sys.argv[1])
+dst = Path(sys.argv[2])
+
+cfg = configparser.RawConfigParser()
+cfg.optionxform = str
+if dst.exists():
+    try:
+        cfg.read(dst, encoding="utf-8")
+    except Exception:
+        pass
+
+colors_cfg = configparser.RawConfigParser()
+colors_cfg.optionxform = str
+colors_cfg.read(src, encoding="utf-8")
+
+for sec in colors_cfg.sections():
+    if not cfg.has_section(sec):
+        cfg.add_section(sec)
+    for k, v in colors_cfg.items(sec):
+        cfg.set(sec, k, v)
+
+if not cfg.has_section("General"):
+    cfg.add_section("General")
+cfg.set("General", "ColorScheme", "PurpleHUD")
+cfg.set("General", "Name", "Purple HUD")
+
+if not cfg.has_section("Icons"):
+    cfg.add_section("Icons")
+cfg.set("Icons", "Theme", "SoursCompiled")
+
+if not cfg.has_section("KDE"):
+    cfg.add_section("KDE")
+cfg.set("KDE", "LookAndFeelPackage", "org.kubuntudark.desktop")
+cfg.set("KDE", "widgetStyle", "Breeze")
+
+dst.parent.mkdir(parents=True, exist_ok=True)
+with open(dst, "w", encoding="utf-8") as f:
+    cfg.write(f)
+PY
+        echo -e "  ${GREEN}[COLORS]${RESET} Merged PurpleHUD color palette into kdeglobals"
+    fi
+
+    # Explicitly write keys in kdeglobals
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key widgetStyle Breeze
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key LookAndFeelPackage org.kubuntudark.desktop
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group General --key ColorScheme PurpleHUD
@@ -448,6 +538,7 @@ EOF
     # Lock Screen Settings (Kubuntu Dark theme & VioletHUD wallpaper)
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kscreenlockerrc" --group Greeter --group Wallpaper --group org.kde.image --group General --key Image /usr/share/wallpapers/VioletHUD/contents/images/1920x1080.jpg
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kscreenlockerrc" --group Greeter --group Wallpaper --group org.kde.image --group General --key PreviewImage /usr/share/wallpapers/VioletHUD/contents/images/1920x1080.jpg
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kscreenlockerrc" --group Greeter --key theme org.kubuntudark.desktop
 
     # Cursor Theme & Size
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorTheme invader-64-purple
@@ -469,14 +560,33 @@ EOF
 Inherits=invader-64-purple
 EOF
 
-    # GTK Cursor & Icon Settings
-    for gtk_dir in "$USER_CONFIG/gtk-3.0" "$USER_CONFIG/gtk-4.0"; do
-        if [ -d "$gtk_dir" ]; then
-            if [ -f "$gtk_dir/settings.ini" ]; then
-                run_as_user sed -i 's/^gtk-cursor-theme-name=.*/gtk-cursor-theme-name=invader-64-purple/' "$gtk_dir/settings.ini" 2>/dev/null || true
-                run_as_user sed -i 's/^gtk-cursor-theme-size=.*/gtk-cursor-theme-size=48/' "$gtk_dir/settings.ini" 2>/dev/null || true
-                run_as_user sed -i 's/^gtk-icon-theme-name=.*/gtk-icon-theme-name=SoursCompiled/' "$gtk_dir/settings.ini" 2>/dev/null || true
-            fi
+    # Xresources cursor configuration
+    run_as_user tee "$USER_HOME/.Xresources" >/dev/null <<'EOF'
+Xcursor.theme: invader-64-purple
+Xcursor.size: 48
+EOF
+    run_as_user xrdb -merge "$USER_HOME/.Xresources" 2>/dev/null || true
+
+    # GTK Cursor & Icon Settings (create if missing, or update existing)
+    for gtk_ver in "gtk-3.0" "gtk-4.0"; do
+        gtk_dir="$USER_CONFIG/$gtk_ver"
+        gtk_file="$gtk_dir/settings.ini"
+        run_as_user mkdir -p "$gtk_dir"
+        if [ ! -f "$gtk_file" ]; then
+            run_as_user tee "$gtk_file" >/dev/null <<'EOF'
+[Settings]
+gtk-application-prefer-dark-theme=true
+gtk-theme-name=Breeze
+gtk-icon-theme-name=SoursCompiled
+gtk-cursor-theme-name=invader-64-purple
+gtk-cursor-theme-size=48
+EOF
+        else
+            run_as_user kwriteconfig6 --file "$gtk_file" --group Settings --key gtk-application-prefer-dark-theme true
+            run_as_user kwriteconfig6 --file "$gtk_file" --group Settings --key gtk-theme-name Breeze
+            run_as_user kwriteconfig6 --file "$gtk_file" --group Settings --key gtk-icon-theme-name SoursCompiled
+            run_as_user kwriteconfig6 --file "$gtk_file" --group Settings --key gtk-cursor-theme-name invader-64-purple
+            run_as_user kwriteconfig6 --file "$gtk_file" --group Settings --key gtk-cursor-theme-size 48
         fi
     done
 
@@ -494,12 +604,21 @@ EOF
     run_as_user plasma-apply-cursortheme invader-64-purple --size 48 2>/dev/null || true
     run_as_user plasma-apply-wallpaperimage /usr/share/wallpapers/VioletHUD/VioletHUD.jpg 2>/dev/null || \
     run_as_user plasma-apply-wallpaperimage "$USER_HOME/.local/share/wallpapers/VioletHUD/VioletHUD.jpg" 2>/dev/null || true
+
+    # Re-assert configs after plasma-apply
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group Icons --key Theme SoursCompiled
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group General --key ColorScheme PurpleHUD
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorTheme invader-64-purple
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorSize 48
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name kubuntu-dark
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Theme VioletHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Engine KSplashQML
+
+    # Clear stale icon caches
+    run_as_user rm -f "$USER_HOME/.cache/icon-cache.kcache" 2>/dev/null || true
+    run_as_user rm -rf "$USER_HOME/.cache/ksycoca6"* 2>/dev/null || true
     run_as_user kbuildsycoca6 --noincremental 2>/dev/null || true
 
     # Enable Opacity Script
@@ -629,22 +748,12 @@ chown "$USER_NAME:$USER_NAME" \
 
 # Reconfigure KWin and notify desktop of cursor, icon, and theme changes
 if [ -d "$USER_RUNDIR" ]; then
-    sudo -u "$USER_NAME" \
-        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
-            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
-            qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
-    sudo -u "$USER_NAME" \
-        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
-            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
-            dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0 2>/dev/null || true
-    sudo -u "$USER_NAME" \
-        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
-            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
-            dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:1 int32:0 2>/dev/null || true
-    sudo -u "$USER_NAME" \
-        env XDG_RUNTIME_DIR="$USER_RUNDIR" \
-            DBUS_SESSION_BUS_ADDRESS="unix:path=$USER_RUNDIR/bus" \
-            dbus-send --type=signal /KIconLoader org.kde.KIconLoader.iconChanged int32:0 2>/dev/null || true
+    run_as_user qdbus6 org.kde.KWin /KWin reconfigure 2>/dev/null || true
+    run_as_user dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0 2>/dev/null || true
+    run_as_user dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:1 int32:0 2>/dev/null || true
+    run_as_user dbus-send --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:5 int32:0 2>/dev/null || true
+    run_as_user dbus-send --type=signal /KIconLoader org.kde.KIconLoader.iconChanged int32:0 2>/dev/null || true
+    run_as_user dbus-send --type=signal / org.kde.kconfig.notify 2>/dev/null || true
 fi
 
 echo
