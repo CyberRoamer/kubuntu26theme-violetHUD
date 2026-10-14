@@ -199,6 +199,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     echo -e "${BOLD}${BLUE}>>> Installing System Theme Assets...${RESET}"
 
     # Icons
+    rm -rf /usr/share/icons/SoursCompiled
     install_tree "$ASSETS_DIR/icons/SoursCompiled" "/usr/share/icons/SoursCompiled"
 
     # Cursors (Alienware Invader Purple)
@@ -415,6 +416,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     # Ensure no duplicate local Aurorae theme exists
     run_as_user rm -rf "$USER_HOME/.local/share/aurorae/themes/VioletHUD"
     if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
+        run_as_user rm -rf "$USER_HOME/.local/share/icons/SoursCompiled"
         run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
         if command -v gtk-update-icon-cache >/dev/null 2>&1; then
             run_as_user gtk-update-icon-cache -f "$USER_HOME/.local/share/icons/SoursCompiled" 2>/dev/null || true
