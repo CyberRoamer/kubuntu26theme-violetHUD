@@ -2,4 +2,4 @@
 Name=Invader 64 Purple
 Comment=Invader cursor theme - #4e01e9 purple
 Example=left_ptr
-Inherits=core
+Inherits=breeze_cursors,default

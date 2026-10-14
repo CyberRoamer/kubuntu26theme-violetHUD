@@ -175,7 +175,6 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
 
     # Aurorae Window Decoration
     install_tree "$ASSETS_DIR/aurorae/VioletHUD" "/usr/share/aurorae/themes/VioletHUD"
-    rm -f /usr/share/aurorae/themes/VioletHUD/metadata.desktop 2>/dev/null || true
 
     # Color Scheme
     install_file "$ASSETS_DIR/color-schemes/PurpleHUD.colors" "/usr/share/color-schemes/PurpleHUD.colors"
@@ -373,10 +372,8 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
         run_as_user cp -a "$ASSETS_DIR/color-schemes"/* "$USER_HOME/.local/share/color-schemes/"
     fi
     run_as_user rm -f "$USER_HOME/.local/share/color-schemes/LavenderHUD.colors"
-    if [ -d "$ASSETS_DIR/aurorae/VioletHUD" ]; then
-        run_as_user cp -a "$ASSETS_DIR/aurorae/VioletHUD" "$USER_HOME/.local/share/aurorae/themes/"
-        run_as_user rm -f "$USER_HOME/.local/share/aurorae/themes/VioletHUD/metadata.desktop"
-    fi
+    # Ensure no duplicate local Aurorae theme exists
+    run_as_user rm -rf "$USER_HOME/.local/share/aurorae/themes/VioletHUD"
     if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
         run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
     fi
@@ -451,12 +448,15 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorTheme invader-64-purple
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorSize 48
 
-    # Install user cursor directories for Wayland/Qt/GTK
-    run_as_user rm -rf "$USER_HOME/.local/share/icons/Tronnix" "$USER_HOME/.icons/Tronnix"
-    run_as_user rm -rf "$USER_HOME/.local/share/icons/invader-64-purple" "$USER_HOME/.icons/invader-64-purple"
-    run_as_user mkdir -p "$USER_HOME/.local/share/icons" "$USER_HOME/.icons/default"
-    run_as_user cp -a "$ASSETS_DIR/cursors/invader-64-purple" "$USER_HOME/.local/share/icons/invader-64-purple"
-    run_as_user cp -a "$ASSETS_DIR/cursors/invader-64-purple" "$USER_HOME/.icons/invader-64-purple"
+    # Clean up local user cursor copies to prevent duplicate entries in System Settings
+    run_as_user rm -rf \
+        "$USER_HOME/.local/share/icons/Tronnix" \
+        "$USER_HOME/.icons/Tronnix" \
+        "$USER_HOME/.local/share/icons/invader-64-purple" \
+        "$USER_HOME/.icons/invader-64-purple" \
+        "$USER_HOME/.icons/invader-64" \
+        "$USER_HOME/.icons/invader"
+    run_as_user mkdir -p "$USER_HOME/.icons/default"
 
     # Default user cursor inheritance
     run_as_user tee "$USER_HOME/.icons/default/index.theme" >/dev/null <<'EOF'
@@ -483,8 +483,8 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
 
-    # Live apply themes to running Plasma session
-    run_as_user plasma-apply-lookandfeel -a org.kubuntudark.desktop 2>/dev/null || true
+    # Live apply desktop theme, color scheme, cursor, and wallpaper
+    run_as_user plasma-apply-desktoptheme kubuntu-dark 2>/dev/null || true
     run_as_user plasma-apply-colorscheme PurpleHUD 2>/dev/null || true
     run_as_user plasma-apply-cursortheme invader-64-purple --size 48 2>/dev/null || true
     run_as_user plasma-apply-wallpaperimage /usr/share/wallpapers/VioletHUD/VioletHUD.jpg 2>/dev/null || \
