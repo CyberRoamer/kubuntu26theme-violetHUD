@@ -175,6 +175,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
 
     # Aurorae Window Decoration
     install_tree "$ASSETS_DIR/aurorae/VioletHUD" "/usr/share/aurorae/themes/VioletHUD"
+    rm -f /usr/share/aurorae/themes/VioletHUD/metadata.desktop 2>/dev/null || true
 
     # Color Scheme
     install_file "$ASSETS_DIR/color-schemes/PurpleHUD.colors" "/usr/share/color-schemes/PurpleHUD.colors"
@@ -212,6 +213,40 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
             echo -e "  ${GREEN}[SDDM]${RESET} Configured VioletHUD background for $sddm_theme login theme"
         fi
     done
+
+    # Configure SDDM user environment (/var/lib/sddm/.config)
+    if id sddm >/dev/null 2>&1; then
+        mkdir -p /var/lib/sddm/.config
+        cp -a "$ASSETS_DIR/color-schemes/PurpleHUD.colors" /var/lib/sddm/.config/kdeglobals
+        kwriteconfig6 --file /var/lib/sddm/.config/kdeglobals --group General --key ColorScheme PurpleHUD
+        kwriteconfig6 --file /var/lib/sddm/.config/kdeglobals --group Icons --key Theme SoursCompiled
+        kwriteconfig6 --file /var/lib/sddm/.config/kdeglobals --group KDE --key LookAndFeelPackage org.kubuntudark.desktop
+        kwriteconfig6 --file /var/lib/sddm/.config/kdeglobals --group KDE --key widgetStyle Breeze
+        kwriteconfig6 --file /var/lib/sddm/.config/plasmarc --group Theme --key name kubuntu-dark
+        kwriteconfig6 --file /var/lib/sddm/.config/kcminputrc --group Mouse --key cursorTheme invader-64-purple
+        kwriteconfig6 --file /var/lib/sddm/.config/kcminputrc --group Mouse --key cursorSize 48
+
+        chown -R sddm:sddm /var/lib/sddm/.config 2>/dev/null || true
+        chmod 755 /var/lib/sddm/.config 2>/dev/null || true
+        chmod 644 /var/lib/sddm/.config/* 2>/dev/null || true
+        rm -rf /var/lib/sddm/.cache 2>/dev/null || true
+        echo -e "  ${GREEN}[SDDM]${RESET} Configured SDDM user dark environment (Kubuntu Dark, PurpleHUD, SoursCompiled)"
+    fi
+
+    # Set sddm-ubuntu-theme alternative to kubuntu if present
+    if update-alternatives --list sddm-ubuntu-theme 2>/dev/null | grep -q "kubuntu"; then
+        update-alternatives --set sddm-ubuntu-theme /usr/share/sddm/themes/kubuntu 2>/dev/null || true
+    fi
+
+    # Global system-wide fallback in /etc/xdg
+    mkdir -p /etc/xdg
+    cp -a "$ASSETS_DIR/color-schemes/PurpleHUD.colors" /etc/xdg/kdeglobals
+    kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key ColorScheme PurpleHUD
+    kwriteconfig6 --file /etc/xdg/kdeglobals --group Icons --key Theme SoursCompiled
+    kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key LookAndFeelPackage org.kubuntudark.desktop
+    kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key widgetStyle Breeze
+    kwriteconfig6 --file /etc/xdg/plasmarc --group Theme --key name kubuntu-dark
+    chmod 644 /etc/xdg/kdeglobals /etc/xdg/plasmarc 2>/dev/null || true
 
     # Plymouth Boot Splash
     install_tree "$ASSETS_DIR/plymouth/VioletHUD" "/usr/share/plymouth/themes/VioletHUD"
@@ -317,6 +352,8 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     echo -e "${BOLD}${BLUE}>>> Applying KDE Plasma User Configurations...${RESET}"
 
     backup_user_file "$USER_CONFIG/kdeglobals"
+    backup_user_file "$USER_CONFIG/plasmarc"
+    backup_user_file "$USER_CONFIG/kscreenlockerrc"
     backup_user_file "$USER_CONFIG/kwinrc"
     backup_user_file "$USER_CONFIG/kwinrulesrc"
     backup_user_file "$USER_CONFIG/ksplashrc"
@@ -338,6 +375,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     run_as_user rm -f "$USER_HOME/.local/share/color-schemes/LavenderHUD.colors"
     if [ -d "$ASSETS_DIR/aurorae/VioletHUD" ]; then
         run_as_user cp -a "$ASSETS_DIR/aurorae/VioletHUD" "$USER_HOME/.local/share/aurorae/themes/"
+        run_as_user rm -f "$USER_HOME/.local/share/aurorae/themes/VioletHUD/metadata.desktop"
     fi
     if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
         run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
@@ -398,9 +436,16 @@ EOF
 
     # Global Style, Scheme, Icons
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key widgetStyle Breeze
-    run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key LookAndFeelPackage org.kde.breezedark.desktop
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key LookAndFeelPackage org.kubuntudark.desktop
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group General --key ColorScheme PurpleHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group Icons --key Theme SoursCompiled
+
+    # Plasma Theme (Kubuntu Dark)
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name kubuntu-dark
+
+    # Lock Screen Settings (Kubuntu Dark theme & VioletHUD wallpaper)
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kscreenlockerrc" --group Greeter --group Wallpaper --group org.kde.image --group General --key Image /usr/share/wallpapers/VioletHUD/contents/images/1920x1080.jpg
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kscreenlockerrc" --group Greeter --group Wallpaper --group org.kde.image --group General --key PreviewImage /usr/share/wallpapers/VioletHUD/contents/images/1920x1080.jpg
 
     # Cursor Theme & Size
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorTheme invader-64-purple
@@ -439,10 +484,16 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
 
     # Live apply themes to running Plasma session
+    run_as_user plasma-apply-lookandfeel -a org.kubuntudark.desktop 2>/dev/null || true
     run_as_user plasma-apply-colorscheme PurpleHUD 2>/dev/null || true
     run_as_user plasma-apply-cursortheme invader-64-purple --size 48 2>/dev/null || true
     run_as_user plasma-apply-wallpaperimage /usr/share/wallpapers/VioletHUD/VioletHUD.jpg 2>/dev/null || \
     run_as_user plasma-apply-wallpaperimage "$USER_HOME/.local/share/wallpapers/VioletHUD/VioletHUD.jpg" 2>/dev/null || true
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group Icons --key Theme SoursCompiled
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name kubuntu-dark
+    run_as_user kbuildsycoca6 --noincremental 2>/dev/null || true
 
     # Enable Opacity Script
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group Plugins --key toggle-window-opacityEnabled true
@@ -559,6 +610,8 @@ fi
 # Ensure all user config files remain owned by target user
 chown "$USER_NAME:$USER_NAME" \
     "$USER_CONFIG/kdeglobals" \
+    "$USER_CONFIG/plasmarc" \
+    "$USER_CONFIG/kscreenlockerrc" \
     "$USER_CONFIG/kwinrc" \
     "$USER_CONFIG/kwinrulesrc" \
     "$USER_CONFIG/ksplashrc" \
@@ -602,7 +655,8 @@ echo "  • Kvantum Style : VioletHUD"
 echo "  • Konsole       : VioletHUD.profile (Selected as Default)"
 echo "  • Splash Screen : VioletHUD"
 echo "  • Plymouth Boot : VioletHUD"
-echo "  • SDDM Login    : Breeze (VioletHUD Background & Purple Cursor)"
+echo "  • SDDM Login    : Kubuntu Dark (VioletHUD Background & Purple Cursor)"
+echo "  • Lock Screen   : Kubuntu Dark (VioletHUD Wallpaper)"
 echo "  • Wallpaper     : VioletHUD (Alienware Purple)"
 if [[ "$INSTALL_MODE" != "no-panels" ]]; then
     echo "  • HUD Panels    : 5 Floating Panels (Weather, Monitors, Dock, Clock, Tray)"

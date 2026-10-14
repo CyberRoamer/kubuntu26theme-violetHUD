@@ -1,5 +1,5 @@
 [Icon Theme]
-Name=Alienware Purple (Invader 64)
-Comment=Alienware Invader 64 cursor theme in purple
-Example=default
-Inherits=breeze_cursors
+Name=Invader 64 Purple
+Comment=Invader cursor theme - #4e01e9 purple
+Example=left_ptr
+Inherits=core
