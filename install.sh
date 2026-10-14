@@ -345,13 +345,14 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
         gtk-update-icon-cache -f /usr/share/icons/invader-64-purple 2>/dev/null || true
     fi
 
-    # System x-cursor-theme registration
-    if [ -f "/usr/share/icons/invader-64-purple/index.theme" ]; then
+    # System x-cursor-theme registration (using cursor.theme without Name= to avoid duplicate entry in KDE System Settings)
+    if [ -f "/usr/share/icons/invader-64-purple/cursor.theme" ]; then
         if command -v update-alternatives >/dev/null 2>&1; then
+            update-alternatives --remove x-cursor-theme /usr/share/icons/invader-64-purple/index.theme 2>/dev/null || true
             update-alternatives --install /usr/share/icons/default/index.theme x-cursor-theme \
-                /usr/share/icons/invader-64-purple/index.theme 100 2>/dev/null || true
+                /usr/share/icons/invader-64-purple/cursor.theme 100 2>/dev/null || true
             update-alternatives --set x-cursor-theme \
-                /usr/share/icons/invader-64-purple/index.theme 2>/dev/null || true
+                /usr/share/icons/invader-64-purple/cursor.theme 2>/dev/null || true
             echo -e "  ${GREEN}[CURSORS]${RESET} Registered invader-64-purple as default x-cursor-theme"
         fi
     fi

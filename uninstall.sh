@@ -88,6 +88,7 @@ if [ -d "$BACKUP_DIR" ]; then
 fi
 
 if command -v update-alternatives >/dev/null 2>&1; then
+    update-alternatives --remove x-cursor-theme /usr/share/icons/invader-64-purple/cursor.theme 2>/dev/null || true
     update-alternatives --remove x-cursor-theme /usr/share/icons/invader-64-purple/index.theme 2>/dev/null || true
     update-alternatives --auto x-cursor-theme 2>/dev/null || true
     update-alternatives --remove default.plymouth /usr/share/plymouth/themes/VioletHUD/VioletHUD.plymouth 2>/dev/null || true
