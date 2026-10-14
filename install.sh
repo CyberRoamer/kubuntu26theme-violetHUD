@@ -784,7 +784,7 @@ echo "  • SDDM Login    : Kubuntu Dark (VioletHUD Background & Purple Cursor)"
 echo "  • Lock Screen   : Kubuntu Dark (VioletHUD Wallpaper)"
 echo "  • Wallpaper     : VioletHUD (Alienware Purple)"
 if [[ "$INSTALL_MODE" != "no-panels" ]]; then
-    echo "  • HUD Panels    : 5 Floating Panels (Weather, Monitors, Dock, Clock, Tray)"
+    echo "  • HUD Panels    : 5 Floating Panels (Top: Clock, Open Apps/Dock, Tray; Bottom: Weather, System Metrics)"
 fi
 echo
 echo -e "${BOLD}Safety & Backups:${RESET}"

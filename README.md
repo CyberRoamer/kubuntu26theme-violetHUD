@@ -13,6 +13,24 @@
 
 **VioletHUD** transforms your KDE Plasma 6 desktop into an integrated, cybernetic violet workstation. It coordinates everything from the UEFI boot splash and login manager to glowing vector window decorations, translucent windows, customized system monitors, and a modular 5-piece floating HUD panel system.
 
+<p align="center">
+  <img src="screenshots/desktop.png" alt="VioletHUD Desktop Overview" width="100%">
+</p>
+
+---
+
+## 📸 Screenshots
+
+| Desktop & Floating HUD Panels | Dolphin & Translucent Windows |
+| :---: | :---: |
+| [![Desktop Overview](screenshots/desktop.png)](screenshots/desktop.png) | [![Dolphin & Konsole](screenshots/screenshot1.png)](screenshots/screenshot1.png) |
+| *5-piece floating HUD layout with Alienware purple wallpaper* | *Dolphin file manager with SoursCompiled icons & window translucency* |
+
+| Konsole Cyberpunk Terminal | SDDM / Plasma Logout Screen |
+| :---: | :---: |
+| [![Konsole](screenshots/konsole.png)](screenshots/konsole.png) | [![Logout Screen](screenshots/logout.png)](screenshots/logout.png) |
+| *Semi-transparent Konsole profile with purple glow borders* | *Session logout dialog featuring Alienware badge & glowing controls* |
+
 ---
 
 ## 🧩 Components Suite
@@ -27,7 +45,7 @@
 | **Konsole** | `VioletHUD.profile` + `VioletHUD.colorscheme` | `/usr/share/konsole/` | Cyberpunk terminal profile (selected as default) |
 | **Profile Avatar** | `assets/avatar/user-avatar.png` | `~/.face` & AccountsService | High-res Alienware violet badge profile picture |
 | **Splash Screen** | `VioletHUD` Look-and-Feel | `/usr/share/plasma/look-and-feel/` | Clean animated startup splash |
-| **Desktop Panels** | 5 Floating HUD Panels | `~/.config/` | Weather, Monitors, Dock, Clock, Tray |
+| **Desktop Panels** | 5 Floating HUD Panels | `~/.config/` | Top: Clock, Apps/Shortcuts Dock, Tray; Bottom: Weather, System Metrics |
 | **Window Rules** | `Translucent-Windows.rules` | `~/.config/kwinrulesrc` | Window translucency & KWin script |
 | **Login Screen** | `kde_settings.conf` + `theme.conf.user` | `/etc/sddm.conf.d/` & SDDM themes | SDDM Breeze with VioletHUD wallpaper & Invader cursor |
 | **Boot Splash** | `VioletHUD` Plymouth | `/usr/share/plymouth/themes/` | High-resolution boot splash with glowing progress dots |
@@ -64,22 +82,28 @@ sudo ./install.sh --panels-only
 
 ## 🖥️ Desktop Panels Layout
 
-The `--all` installation configures a modular 5-piece floating HUD layout:
+The `--all` installation configures a modular 5-piece floating HUD layout with three panels across the top and two panels across the bottom:
 
-```
-+-----------------------------------------------------------------------------------+
-| [Delhi Weather]                                          [CPU | MEM | CORES | NET]|
-| (Floating Panel 100)                                       (Floating Panel 102)   |
-|                                                                                   |
-|                                                                                   |
-|                                                                                   |
-|                   [Kickoff | AppMenu | Icons Dock]    [Clock | Bat]   [Tray | User]|
-|                         (Floating Panel 53)          (Panel 56)      (Panel 81)   |
-+-----------------------------------------------------------------------------------+
+```text
++---------------------------------------------------------------------------------------------------+
+| [Clock | Battery]            [Kickoff | Open Apps & Shortcuts Dock]          [System Tray | User] |
+| (Floating Panel 56)                   (Floating Panel 53)                     (Floating Panel 81) |
+|                                                                                                   |
+|                                                                                                   |
+|                                                                                                   |
+| [Weather]                                                               [RAM | CPU | CORES | NET] |
+| (Floating Panel 100)                                                     (Floating Panel 102)     |
++---------------------------------------------------------------------------------------------------+
 ```
 
-* **System Monitors:** Calibrated in deep violet (`#300090`) for CPU, Memory, and Network load.
-* **Dock:** Floating and translucent HUD panel with pinned launchers.
+### Top Panels (3 Panels)
+* **Top-Left (Panel 56):** Digital Clock with date display and battery level indicator.
+* **Top-Center (Panel 53):** Floating application dock displaying open applications (Icons-Only Task Manager), pinned shortcuts, and the Kickoff application launcher.
+* **Top-Right (Panel 81):** System status tray, notification center, and active user profile indicator (`abc`).
+
+### Bottom Panels (2 Panels)
+* **Bottom-Left (Panel 100):** Real-time weather HUD widget (defaults to Delhi, customizable via right-click settings).
+* **Bottom-Right (Panel 102):** System metrics HUD calibrated in neon violet (`#300090`) displaying live RAM usage, total CPU load, individual core metrics, and real-time network traffic graphs.
 
 ---
 
@@ -113,6 +137,11 @@ violetHUD-repo/
 │   ├── COMPONENTS.md       # Technical component specs
 │   ├── MANUAL_INSTALL.md   # Step-by-step manual setup
 │   └── TROUBLESHOOTING.md  # Common issues and solutions
+├── screenshots/            # Theme screenshots & desktop previews
+│   ├── desktop.png         # Desktop overview with 5 floating HUD panels
+│   ├── konsole.png         # Konsole cyberpunk terminal
+│   ├── logout.png          # SDDM / Plasma logout screen
+│   └── screenshot1.png     # Dolphin & Konsole translucency showcase
 ├── tools/                  # Developer utilities
 │   ├── build-tarball.sh    # Release packaging script
 │   └── inventory.sh        # System configuration auditor

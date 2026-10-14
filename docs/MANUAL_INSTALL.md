@@ -80,7 +80,7 @@ kwriteconfig6 --file ~/.config/kwinrc --group Plugins --key toggle-window-opacit
 ---
 
 ### Step 3: (Optional) Apply Desktop Panels
-To apply the 5 floating HUD panels:
+To apply the 5 floating HUD panels (Top: Clock, Open Apps & Shortcuts Dock, System Tray; Bottom: Weather, System Metrics):
 ```bash
 cp assets/plasma/panels/plasmashellrc ~/.config/plasmashellrc
 cp assets/plasma/panels/plasma-org.kde.plasma.desktop-appletsrc ~/.config/plasma-org.kde.plasma.desktop-appletsrc

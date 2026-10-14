@@ -69,11 +69,13 @@ This document outlines the technical details and installation targets for each m
   * `assets/plasma/panels/plasmashellrc`
 * **Target:** `~/.config/`
 * **Description:** Modular 5-piece floating HUD desktop panel arrangement:
-  1. **Top-Left:** Weather monitor.
-  2. **Top-Right:** Hardware monitors (CPU, Memory, Cores, Network in purple `#300090`).
-  3. **Bottom-Center:** Translucent dock (Global menu, Icons-Only Task Manager, Kickoff).
-  4. **Bottom-Right:** Digital clock and battery level.
-  5. **Bottom-Far-Right:** System Tray and user profile switch.
+  * **Top Panels (3 panels):**
+    1. **Top-Left (Panel 56):** Digital clock and battery status.
+    2. **Top-Center (Panel 53):** Translucent floating dock for open apps and shortcuts (Icons-Only Task Manager, Application Menu, and Kickoff launcher).
+    3. **Top-Right (Panel 81):** System Tray, notification tray, and user profile switcher.
+  * **Bottom Panels (2 panels):**
+    4. **Bottom-Left (Panel 100):** Real-time weather monitor widget.
+    5. **Bottom-Right (Panel 102):** System metrics HUD (RAM, CPU load, core monitors, and network traffic calibrated in deep violet `#300090`).
 
 ---
 

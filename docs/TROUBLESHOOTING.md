@@ -37,4 +37,5 @@ Open **System Settings -> Window Management -> Window Rules** and verify that th
 ---
 
 ### 5. Weather applet displays Delhi by default
-The floating weather applet in the top-left panel defaults to Delhi, India. Right-click the applet, select **Configure Weather Report**, and set your desired city.
+The floating weather applet in the bottom-left panel defaults to Delhi, India. Right-click the applet, select **Configure Weather Report**, and set your desired city.
+
