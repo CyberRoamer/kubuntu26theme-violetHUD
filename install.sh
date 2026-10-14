@@ -431,7 +431,12 @@ EOF
         echo -e "  ${GREEN}[AVATAR]${RESET} Set profile picture to VioletHUD avatar"
     fi
 
-    # Global Style, Scheme, Icons
+    # 1. Apply Kubuntu Dark (or Breeze Dark fallback) look-and-feel base FIRST
+    # so that all underlying global dark frameworks, Kirigami structures, and defaults are in place
+    run_as_user plasma-apply-lookandfeel -a org.kubuntudark.desktop 2>/dev/null || \
+    run_as_user plasma-apply-lookandfeel -a org.kde.breezedark.desktop 2>/dev/null || true
+
+    # 2. Apply VioletHUD Specific Global Style, Scheme, Icons
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key widgetStyle Breeze
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group KDE --key LookAndFeelPackage org.kubuntudark.desktop
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kdeglobals" --group General --key ColorScheme PurpleHUD
@@ -493,6 +498,8 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name kubuntu-dark
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Theme VioletHUD
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Engine KSplashQML
     run_as_user kbuildsycoca6 --noincremental 2>/dev/null || true
 
     # Enable Opacity Script
