@@ -266,6 +266,23 @@ validate_and_repair_icons() {
             fi
         done
     fi
+
+    # Ensure places/22, places/24 and HiDPI scaled symlinks exist
+    if [ -d "$target_dir/places/16" ]; then
+        if [ ! -d "$target_dir/places/22" ]; then
+            cp -a "$target_dir/places/16" "$target_dir/places/22"
+        fi
+        (
+            cd "$target_dir/places" || exit 0
+            [ -e "24" ] || ln -s 22 24
+            [ -e "16@2x" ] || ln -s 16 16@2x
+            [ -e "16@3x" ] || ln -s 16 16@3x
+            [ -e "22@2x" ] || ln -s 22 22@2x
+            [ -e "22@3x" ] || ln -s 22 22@3x
+            [ -e "24@2x" ] || ln -s 24 24@2x
+            [ -e "24@3x" ] || ln -s 24 24@3x
+        ) 2>/dev/null || true
+    fi
 }
 
 # ------------------------------------------------------------------------------
@@ -701,6 +718,11 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Theme VioletHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Engine KSplashQML
 
+    # Dolphin Places sidebar configuration (Medium 22px static size)
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/dolphinrc" --group "KFileDialog Settings" --key "Places Icons Auto-resize" false
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/dolphinrc" --group "KFileDialog Settings" --key "Places Icons Static Size" 22
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/dolphinrc" --group "PlacesPanel" --key "IconSize" 22
+
     # Clear stale icon caches
     run_as_user rm -f "$USER_HOME/.cache/icon-cache.kcache" 2>/dev/null || true
     run_as_user rm -rf "$USER_HOME/.cache/ksycoca6"* 2>/dev/null || true
@@ -833,6 +855,7 @@ chown "$USER_NAME:$USER_NAME" \
     "$USER_CONFIG/kwinrulesrc" \
     "$USER_CONFIG/ksplashrc" \
     "$USER_CONFIG/kcminputrc" \
+    "$USER_CONFIG/dolphinrc" \
     "$USER_CONFIG/konsolerc" \
     "$USER_HOME/.face" \
     2>/dev/null || true
