@@ -13,8 +13,8 @@ Shadow=true
 Animation=1
 
 [Layout]
-BorderLeft=2
-BorderRight=2
+BorderLeft=5
+BorderRight=5
 BorderBottom=7
 TitleEdgeTop=4
 TitleEdgeBottom=4

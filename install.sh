@@ -267,10 +267,13 @@ validate_and_repair_icons() {
         done
     fi
 
-    # Ensure places/22, places/24 and HiDPI scaled symlinks exist
+    # Ensure places/22, places/24, places/32 and HiDPI scaled symlinks exist
     if [ -d "$target_dir/places/16" ]; then
         if [ ! -d "$target_dir/places/22" ]; then
             cp -a "$target_dir/places/16" "$target_dir/places/22"
+        fi
+        if [ ! -d "$target_dir/places/32" ]; then
+            cp -a "$target_dir/places/22" "$target_dir/places/32"
         fi
         (
             cd "$target_dir/places" || exit 0
@@ -281,6 +284,8 @@ validate_and_repair_icons() {
             [ -e "22@3x" ] || ln -s 22 22@3x
             [ -e "24@2x" ] || ln -s 24 24@2x
             [ -e "24@3x" ] || ln -s 24 24@3x
+            [ -e "32@2x" ] || ln -s 32 32@2x
+            [ -e "32@3x" ] || ln -s 32 32@3x
         ) 2>/dev/null || true
     fi
 }
@@ -714,6 +719,7 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kcminputrc" --group Mouse --key cursorSize 48
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae.v2
     run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key theme __aurorae__svg__VioletHUD
+    run_as_user kwriteconfig6 --file "$USER_CONFIG/kwinrc" --group org.kde.kdecoration2 --key BorderSize Normal
     run_as_user kwriteconfig6 --file "$USER_CONFIG/plasmarc" --group Theme --key name default
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Theme VioletHUD
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Engine KSplashQML
@@ -726,6 +732,7 @@ EOF
     # Clear stale icon caches
     run_as_user rm -f "$USER_HOME/.cache/icon-cache.kcache" 2>/dev/null || true
     run_as_user rm -rf "$USER_HOME/.cache/ksycoca6"* 2>/dev/null || true
+    run_as_user rm -rf "$USER_HOME/.cache/kicontheme"* 2>/dev/null || true
     run_as_user rm -rf "$USER_HOME/.cache/plasma_theme"* 2>/dev/null || true
     run_as_user rm -rf "$USER_HOME/.cache/plasma-svgelements"* 2>/dev/null || true
     run_as_user kbuildsycoca6 --noincremental 2>/dev/null || true
