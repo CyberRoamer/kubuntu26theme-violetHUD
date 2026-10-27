@@ -290,6 +290,50 @@ validate_and_repair_icons() {
     fi
 }
 
+validate_and_repair_cursors() {
+    local target_dir="$1"
+    local cdir="$target_dir/cursors"
+    if [ ! -d "$cdir" ]; then
+        return
+    fi
+
+    local HORIZ_HASH="14fef782d02440884392942c11205230"
+    local VERT_HASH="2870a09082c103050810ffdffffe0204"
+
+    # Convert any text placeholder files (from zip/git without symlinks) to real symlinks
+    for f in "$cdir"/*; do
+        [ -e "$f" ] || [ -L "$f" ] || continue
+        if [ ! -L "$f" ] && [ -f "$f" ]; then
+            local fsize
+            fsize=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f" 2>/dev/null || echo 0)
+            if [ "$fsize" -lt 100 ]; then
+                local link_target
+                link_target=$(cat "$f" | tr -d '\r\n')
+                rm -f "$f"
+                ln -sf "$link_target" "$f"
+            fi
+        fi
+    done
+
+    # Ensure horizontal resize pointers point to horizontal hash
+    for h in \
+        col-resize e-resize ew-resize h_double_arrow left_side right_side \
+        sb_h_double_arrow size-hor size_hor split_h w-resize \
+        028006030e0e7ebffc7f7070c0600140; do
+        rm -f "$cdir/$h"
+        ln -sf "$HORIZ_HASH" "$cdir/$h"
+    done
+
+    # Ensure vertical resize pointers point to vertical hash
+    for v in \
+        bottom_side double_arrow n-resize ns-resize row-resize s-resize \
+        sb_v_double_arrow size-ver size_ver split_v top_side v_double_arrow \
+        00008160000006810000408080010102; do
+        rm -f "$cdir/$v"
+        ln -sf "$VERT_HASH" "$cdir/$v"
+    done
+}
+
 # ------------------------------------------------------------------------------
 # 1. System Assets Installation
 # ------------------------------------------------------------------------------
@@ -303,8 +347,10 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     validate_and_repair_icons "/usr/share/icons/SoursCompiled"
 
     # Cursors (Alienware Invader Purple)
+    validate_and_repair_cursors "$ASSETS_DIR/cursors/invader-64-purple"
     rm -rf /usr/share/icons/Tronnix /usr/share/icons/invader-64-purple
     install_tree "$ASSETS_DIR/cursors/invader-64-purple" "/usr/share/icons/invader-64-purple"
+    validate_and_repair_cursors "/usr/share/icons/invader-64-purple"
 
 
     # Aurorae Window Decoration
