@@ -267,27 +267,51 @@ validate_and_repair_icons() {
         done
     fi
 
-    # Ensure places/22, places/24, places/32 and HiDPI scaled symlinks exist
+    # Ensure places/22, places/24, places/32 exist as real standalone directories
     if [ -d "$target_dir/places/16" ]; then
         if [ ! -d "$target_dir/places/22" ]; then
+            rm -rf "$target_dir/places/22"
             cp -a "$target_dir/places/16" "$target_dir/places/22"
         fi
+        if [ ! -d "$target_dir/places/24" ]; then
+            rm -rf "$target_dir/places/24"
+            cp -a "$target_dir/places/22" "$target_dir/places/24"
+        fi
         if [ ! -d "$target_dir/places/32" ]; then
+            rm -rf "$target_dir/places/32"
             cp -a "$target_dir/places/22" "$target_dir/places/32"
         fi
         (
             cd "$target_dir/places" || exit 0
-            [ -e "24" ] || ln -s 22 24
-            [ -e "16@2x" ] || ln -s 16 16@2x
-            [ -e "16@3x" ] || ln -s 16 16@3x
-            [ -e "22@2x" ] || ln -s 22 22@2x
-            [ -e "22@3x" ] || ln -s 22 22@3x
-            [ -e "24@2x" ] || ln -s 24 24@2x
-            [ -e "24@3x" ] || ln -s 24 24@3x
-            [ -e "32@2x" ] || ln -s 32 32@2x
-            [ -e "32@3x" ] || ln -s 32 32@3x
+            for scale_dir in "16@2x:16" "16@3x:16" "22@2x:22" "22@3x:22" "24@2x:24" "24@3x:24" "32@2x:32" "32@3x:32"; do
+                sname="${scale_dir%%:*}"
+                starget="${scale_dir##*:}"
+                if [ ! -L "$sname" ] || [ ! -d "$sname" ]; then
+                    rm -rf "$sname"
+                    ln -sf "$starget" "$sname"
+                fi
+            done
         ) 2>/dev/null || true
     fi
+
+    # Self-heal any flattened text-placeholder SVG files (from zip/git without symlinks)
+    for f in "$target_dir"/places/*/*.svg "$target_dir"/apps/scalable/*.svg "$target_dir"/mimetypes/scalable/*.svg; do
+        [ -f "$f" ] || continue
+        if [ ! -L "$f" ]; then
+            local fsize
+            fsize=$(stat -c%s "$f" 2>/dev/null || stat -f%z "$f" 2>/dev/null || echo 0)
+            if [ "$fsize" -gt 0 ] && [ "$fsize" -lt 300 ]; then
+                if ! grep -q -E "<svg|<xml" "$f" 2>/dev/null; then
+                    local link_target fdir
+                    link_target=$(cat "$f" | tr -d '\r\n')
+                    fdir=$(dirname "$f")
+                    if [ -f "$fdir/$link_target" ]; then
+                        cp -a "$fdir/$link_target" "$f"
+                    fi
+                fi
+            fi
+        fi
+    done
 }
 
 validate_and_repair_cursors() {
