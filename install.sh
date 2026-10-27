@@ -653,12 +653,10 @@ PY
 
     # Clean up local user cursor copies to prevent duplicate entries in System Settings
     run_as_user rm -rf \
-        "$USER_HOME/.local/share/icons/Tronnix" \
-        "$USER_HOME/.icons/Tronnix" \
-        "$USER_HOME/.local/share/icons/invader-64-purple" \
-        "$USER_HOME/.icons/invader-64-purple" \
-        "$USER_HOME/.icons/invader-64" \
-        "$USER_HOME/.icons/invader"
+        "$USER_HOME/.local/share/icons/Tronnix"* \
+        "$USER_HOME/.icons/Tronnix"* \
+        "$USER_HOME/.local/share/icons/invader"* \
+        "$USER_HOME/.icons/invader"*
     run_as_user mkdir -p "$USER_HOME/.icons/default"
 
     # Default user cursor inheritance
@@ -708,7 +706,14 @@ EOF
     # Live apply desktop theme, color scheme, cursor, and wallpaper
     run_as_user plasma-apply-desktoptheme default 2>/dev/null || true
     run_as_user plasma-apply-colorscheme PurpleHUD 2>/dev/null || true
+
+    # Force KWin and Wayland/X11 session to reload cursor textures:
+    # plasma-apply-cursortheme does nothing if the requested theme is already active.
+    # Cycling through breeze_cursors forces KWin to drop its in-memory cursor cache and re-read from disk.
+    run_as_user plasma-apply-cursortheme breeze_cursors --size 48 2>/dev/null || true
     run_as_user plasma-apply-cursortheme invader-64-purple --size 48 2>/dev/null || true
+    run_as_user qdbus6 org.kde.KWin /KWin org.kde.KWin.reconfigure 2>/dev/null || true
+
     run_as_user plasma-apply-wallpaperimage /usr/share/wallpapers/VioletHUD/VioletHUD.jpg 2>/dev/null || \
     run_as_user plasma-apply-wallpaperimage "$USER_HOME/.local/share/wallpapers/VioletHUD/VioletHUD.jpg" 2>/dev/null || true
 
@@ -725,6 +730,7 @@ EOF
     run_as_user kwriteconfig6 --file "$USER_CONFIG/ksplashrc" --group KSplash --key Engine KSplashQML
 
     # Dolphin Places sidebar configuration (Medium 22px static size)
+    run_as_user killall dolphin 2>/dev/null || true
     run_as_user kwriteconfig6 --file "$USER_CONFIG/dolphinrc" --group "KFileDialog Settings" --key "Places Icons Auto-resize" false
     run_as_user kwriteconfig6 --file "$USER_CONFIG/dolphinrc" --group "KFileDialog Settings" --key "Places Icons Static Size" 22
     run_as_user kwriteconfig6 --file "$USER_CONFIG/dolphinrc" --group "PlacesPanel" --key "IconSize" 22
