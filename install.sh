@@ -516,7 +516,7 @@ if [[ "$INSTALL_MODE" != "panels-only" ]]; then
     # Ensure no duplicate local Aurorae theme exists
     run_as_user rm -rf "$USER_HOME/.local/share/aurorae/themes/VioletHUD"
     if [ -d "$ASSETS_DIR/icons/SoursCompiled" ]; then
-        run_as_user rm -rf "$USER_HOME/.local/share/icons/SoursCompiled"
+        run_as_user rm -rf "$USER_HOME/.local/share/icons/SoursCompiled" "$USER_HOME/.icons/SoursCompiled"
         run_as_user cp -a "$ASSETS_DIR/icons/SoursCompiled" "$USER_HOME/.local/share/icons/"
         validate_and_repair_icons "$USER_HOME/.local/share/icons/SoursCompiled"
         chown -R "$USER_NAME:$USER_NAME" "$USER_HOME/.local/share/icons/SoursCompiled" 2>/dev/null || true
